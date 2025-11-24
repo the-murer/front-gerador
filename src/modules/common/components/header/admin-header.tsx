@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { BookOpen, Home, Menu, Network, X } from 'lucide-react'
 
-export default function Header() {
+export function AdminHeader() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -18,11 +18,7 @@ export default function Header() {
         </button>
         <h1 className="ml-4 text-xl font-semibold">
           <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
+            Aba de admin
           </Link>
         </h1>
       </header>
@@ -60,7 +56,7 @@ export default function Header() {
           {/* Demo Links Start */}
 
           <Link
-            to="/demo/tanstack-query"
+            to="/admin/users"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
@@ -73,7 +69,7 @@ export default function Header() {
           </Link>
 
           <Link
-            to="/demo/storybook"
+            to="/admin/users"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
