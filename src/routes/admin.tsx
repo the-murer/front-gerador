@@ -2,7 +2,7 @@ import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
 import { AdminHeader } from '@/modules/common/components/header/admin-header'
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/admin/')({
+export const Route = createFileRoute('/admin')({
   component: RouteComponent,
 })
 
@@ -17,7 +17,6 @@ function RouteComponent() {
   return (
     <div>
       <AdminHeader />
-      Hello "/admin/_root"!
       <Outlet />
     </div>
   )
