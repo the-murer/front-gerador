@@ -1,74 +1,97 @@
-import { Link } from '@tanstack/react-router'
+import type { ComponentType, MouseEvent } from 'react'
 
-import { useState } from 'react'
-import { BookOpen, Home, Menu, Network, X } from 'lucide-react'
+import { Box, Flex, VStack } from '@chakra-ui/react'
+import { LayoutDashboard, Users } from 'lucide-react'
+
+import { useAdminUiStore } from '@/modules/common/stores/admin-ui-store'
+import { useColorModeValue } from '@/modules/common/components/ui/color-mode'
+import { SidebarItem } from '@/components/sidebar/sidebar-item'
+import { SidebarHeader } from '@/components/sidebar/sidebar-header'
+import { SidebarFooter } from '@/components/sidebar/sidebar-footer'
+
+type NavItem = {
+  title: string
+  to: string
+  icon: ComponentType<{ size?: number }>
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { title: 'Dashboard', to: '/admin/dashboard', icon: LayoutDashboard },
+  { title: 'Usuários', to: '/admin/users', icon: Users },
+]
 
 export function AdminHeader() {
-  const [isOpen, setIsOpen] = useState(false)
+  const collapsed = useAdminUiStore((s) => s.isSidebarCollapsed)
+  const toggleCollapsed = useAdminUiStore((s) => s.toggleSidebarCollapsed)
+  const setSidebarCollapsed = useAdminUiStore((s) => s.setSidebarCollapsed)
+
+  const sidebarBg = useColorModeValue('white', 'gray.950')
+  const borderColor = useColorModeValue('gray.200', 'gray.800')
+  const subtleText = useColorModeValue('gray.500', 'gray.400')
+
+  const sidebarWidth = collapsed ? '72px' : '288px'
+
+  const handleSidebarClickCapture = (e: MouseEvent<HTMLElement>) => {
+    if (!collapsed) return
+
+    const target = e.target as HTMLElement | null
+    if (!target) return
+
+    const isOnNoExpand = Boolean(
+      target.closest('[data-sidebar-no-expand="true"]'),
+    )
+
+    if (isOnNoExpand) return
+
+    setSidebarCollapsed(false)
+  }
 
   return (
-    <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">Aba de admin</Link>
-        </h1>
-      </header>
+    <Box
+      as="aside"
+      w={sidebarWidth}
+      transition="width 180ms ease"
+      bg={sidebarBg}
+      borderRightWidth="1px"
+      borderRightColor={borderColor}
+      position="sticky"
+      top="0"
+      h="100vh"
+      overflow="hidden"
+      flexShrink={0}
+      cursor={collapsed ? 'pointer' : 'default'}
+      onClickCapture={handleSidebarClickCapture}
+    >
+      <Flex direction="column" h="full">
+        <SidebarHeader
+          collapsed={collapsed}
+          toggleCollapsed={toggleCollapsed}
+          subtleText={subtleText}
+        />
 
-      <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold">Navigation</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
-        </div>
+        <Divider />
 
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <Link
-            to="/admin/dashboard"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Home size={20} />
-            <span className="font-medium">Home</span>
-          </Link>
+        <VStack align="stretch" gap={1} px={2} py={3} flex="1" overflowY="auto">
+          {NAV_ITEMS.map((item) => {
+            return (
+              <SidebarItem
+                to={item.to}
+                title={item.title}
+                collapsed={collapsed}
+                icon={item.icon}
+              />
+            )
+          })}
+        </VStack>
 
-          {/* Demo Links Start */}
+        <Divider />
 
-          <Link
-            to="/admin/users"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Network size={20} />
-            <span className="font-medium">Usuários</span>
-          </Link>
-
-          {/* Demo Links End */}
-        </nav>
-      </aside>
-    </>
+        <SidebarFooter collapsed={collapsed} />
+      </Flex>
+    </Box>
   )
+}
+
+const Divider = () => {
+  return <Box borderTopWidth="1px" borderTopColor="gray.800" />
 }

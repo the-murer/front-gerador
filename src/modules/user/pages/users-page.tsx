@@ -1,5 +1,5 @@
-import { DefaultPagination } from '@/components/storybook/pagination/pagination'
-import { DefaultTable } from '@/components/storybook/table'
+import { DefaultPagination } from '@/components/pagination/pagination'
+import { DefaultTable } from '@/components/table'
 import { DefaultPage } from '@/modules/common/pages/default-page'
 import { userColumns } from '../components/columns'
 import { useState } from 'react'

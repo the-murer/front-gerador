@@ -8,7 +8,7 @@ import { routeTree } from './routeTree.gen'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
-import { Provider } from './modules/common/ui/provider.tsx'
+import { Provider } from './modules/common/components/ui/provider.tsx'
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({

@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 
 type DecodedUser = {
   sub: string
+  _id: string
   email: string
   name: string
 }
