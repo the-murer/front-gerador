@@ -1,5 +1,5 @@
 import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
-import { AdminHeader } from '@/modules/common/components/header/admin-header'
+import { AdminHeader } from '@/ui/blocks/header/admin-header'
 import { Box, Flex } from '@chakra-ui/react'
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 

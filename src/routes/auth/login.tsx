@@ -1,5 +1,5 @@
 import LoginForm from '@/modules/auth/components/login-form'
-import { LoginTemplate } from '@/modules/common/components/auth/login-template'
+import { LoginTemplate } from '@/ui/templates/auth/login-template'
 import { Stack } from '@chakra-ui/react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 

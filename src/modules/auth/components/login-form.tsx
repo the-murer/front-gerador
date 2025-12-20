@@ -1,8 +1,8 @@
 import { VStack, Button } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { useLogin } from '../hooks/use-login'
-import { DefaultInput } from '@/components/input/input'
-import { InputTypes } from '@/components/input/input-map'
+import { DefaultInput } from '@/ui/components/input/input'
+import { InputTypes } from '@/ui/components/input/input-map'
 import { useAuthenticatedUser } from '../stores/auth-user-store'
 import { useNavigate } from '@tanstack/react-router'
 

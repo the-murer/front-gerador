@@ -1,4 +1,4 @@
-import { DefaultPage } from '@/modules/common/pages/default-page'
+import { DefaultPage } from '@/ui/templates/default-page'
 import { useParams } from '@tanstack/react-router'
 import { useGetUser } from '../hooks/use-get-user'
 

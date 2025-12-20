@@ -8,7 +8,7 @@ type DefaultInput = {
   label: string
   placeHolder?: string
   control: any
-  rules: any
+  rules?: any
 }
 
 export const DefaultInput = ({ name, type, label, ...rest }: DefaultInput) => {

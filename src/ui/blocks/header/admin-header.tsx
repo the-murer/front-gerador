@@ -3,11 +3,11 @@ import type { ComponentType, MouseEvent } from 'react'
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import { LayoutDashboard, Users } from 'lucide-react'
 
-import { useAdminUiStore } from '@/modules/common/stores/admin-ui-store'
-import { useColorModeValue } from '@/modules/common/components/ui/color-mode'
-import { SidebarItem } from '@/components/sidebar/sidebar-item'
-import { SidebarHeader } from '@/components/sidebar/sidebar-header'
-import { SidebarFooter } from '@/components/sidebar/sidebar-footer'
+import { useAdminUiStore } from '@/common/stores/admin-ui-store'
+import { useColorModeValue } from '@/ui/utils/color-mode'
+import { SidebarItem } from '@/ui/blocks/sidebar/sidebar-item'
+import { SidebarHeader } from '@/ui/blocks/sidebar/sidebar-header'
+import { SidebarFooter } from '@/ui/blocks/sidebar/sidebar-footer'
 
 type NavItem = {
   title: string

@@ -14,8 +14,8 @@ import {
   useAuthenticatedUser,
   useSetAuthenticatedUser,
 } from '@/modules/auth/stores/auth-user-store'
-import { useColorModeValue } from '@/modules/common/components/ui/color-mode'
-import { Tooltip } from '@/components/storybook/tooltip'
+import { useColorModeValue } from '@/ui/utils/color-mode'
+import { Tooltip } from '@/ui/storybook/tooltip'
 
 export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
   const navigate = useNavigate()

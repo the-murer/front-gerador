@@ -1,11 +1,23 @@
+import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
+import { can } from '@/modules/auth/components/can'
 import { Heading, HStack, Stack, VStack } from '@chakra-ui/react'
 import type { ReactNode } from 'react'
 
 type DefaultPageProps = {
   children: ReactNode
+  entity?: string
+  action?: string
 }
 
-export const DefaultPage = ({ children }: DefaultPageProps) => {
+export const DefaultPage = ({ children, entity, action }: DefaultPageProps) => {
+  const { authenticatedUser } = useAuthenticatedUser()
+
+  if (entity && action) {
+    if (can(authenticatedUser, entity, action)) {
+      return <Stack p="40px">{children}</Stack>
+    }
+    return null
+  }
   return <Stack p="40px">{children}</Stack>
 }
 

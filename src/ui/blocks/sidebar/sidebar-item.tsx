@@ -1,7 +1,7 @@
 import { Box, Text } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
-import { Tooltip } from '../storybook/tooltip'
-import { useColorModeValue } from '@/modules/common/components/ui/color-mode'
+import { Tooltip } from '../../storybook/tooltip'
+import { useColorModeValue } from '@/ui/utils/color-mode'
 import type { ComponentType } from 'react'
 
 type SidebarItemProps = {

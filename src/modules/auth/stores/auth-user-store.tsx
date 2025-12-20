@@ -1,19 +1,13 @@
+import type { User } from '@/modules/user/utils/constants'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-type DecodedUser = {
-  sub: string
-  _id: string
-  email: string
-  name: string
-}
 
 type AuthState = {
   accessToken: string | null
   setAuthenticatedUser: (token: string | null) => void
 }
 
-const decodeJwt = (token: string): DecodedUser => {
+const decodeJwt = (token: string): User => {
   const payload = token.split('.')[1]
   const json = atob(payload)
   return JSON.parse(json)
@@ -31,9 +25,10 @@ export const useAuthStore = create<AuthState>()(
 
 export const useAuthenticatedUser = () => {
   const accessToken = useAuthStore((s) => s.accessToken)
-  if (!accessToken) return { authenticatedUser: null }
+  if (!accessToken) throw new Error('Access token is required')
 
   const authenticatedUser = decodeJwt(accessToken)
+
   return { authenticatedUser }
 }
 

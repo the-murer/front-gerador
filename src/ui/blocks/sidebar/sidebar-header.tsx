@@ -1,8 +1,8 @@
 import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react'
 import { ChevronLeft } from 'lucide-react'
 
-import { useColorModeValue } from '@/modules/common/components/ui/color-mode'
-import { Tooltip } from '@/components/storybook/tooltip'
+import { useColorModeValue } from '@/ui/utils/color-mode'
+import { Tooltip } from '@/ui/storybook/tooltip'
 
 export const SidebarHeader = ({
   collapsed,

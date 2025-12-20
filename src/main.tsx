@@ -8,7 +8,10 @@ import { routeTree } from './routeTree.gen'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
-import { Provider } from './modules/common/components/ui/provider.tsx'
+import { Provider } from './ui/utils/provider.tsx'
+import { Toaster } from '@chakra-ui/react'
+import { toaster } from './ui/storybook/toaster.tsx'
+import NiceModal from '@ebay/nice-modal-react'
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({
@@ -37,7 +40,9 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
         <Provider>
-          <RouterProvider router={router} />
+          <NiceModal.Provider>
+            <RouterProvider router={router} />
+          </NiceModal.Provider>
         </Provider>
       </TanStackQueryProvider.Provider>
     </StrictMode>,
