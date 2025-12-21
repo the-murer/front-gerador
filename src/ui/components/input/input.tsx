@@ -6,9 +6,10 @@ type DefaultInput = {
   type: InputTypes
   name: string
   label: string
-  placeHolder?: string
+  placeholder?: string
   control: any
   rules?: any
+  options?: any
 }
 
 export const DefaultInput = ({ name, type, label, ...rest }: DefaultInput) => {
@@ -22,7 +23,7 @@ export const DefaultInput = ({ name, type, label, ...rest }: DefaultInput) => {
         rules={rest.rules}
         render={({ field, fieldState }) => (
           <>
-            <Component field={field} fieldState={fieldState} />
+            <Component field={field} fieldState={fieldState} {...rest} />
             {fieldState.error && (
               <Field.ErrorText>{fieldState.error.message}</Field.ErrorText>
             )}

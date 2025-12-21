@@ -5,6 +5,8 @@ import { useChangeUserActive } from '../hooks/use-change-user-active'
 import { useModal } from '@ebay/nice-modal-react'
 import { UpdateUserDialog } from './update-user-dialog'
 import { ColumnsMenu } from '@/ui/blocks/menu/columns-menu'
+import { Typography } from '@/ui/components/typography/typography'
+import { formatDate } from '@/common/utils/time-utils'
 
 export const useUserColumns = () => {
   const { mutateAsync: changeUserActive } = useChangeUserActive()
@@ -27,12 +29,19 @@ export const useUserColumns = () => {
     { accessorKey: 'name', header: 'Nome' },
     { accessorKey: 'email', header: 'Email' },
     {
+      accessorKey: 'createdAt',
+      header: 'Criado em',
+      cell: ({ getValue }) => (
+        <Typography>{formatDate(getValue() as Date)}</Typography>
+      ),
+    },
+    {
       accessorKey: 'actions',
       header: 'Ações',
       cell: ({ row }) => (
         <ColumnsMenu>
           <ColumnsMenu.EditItem
-            onClick={() => editUserModal.show({ id: row.original._id })}
+            onClick={() => editUserModal.show({ user: row.original })}
           />
         </ColumnsMenu>
       ),

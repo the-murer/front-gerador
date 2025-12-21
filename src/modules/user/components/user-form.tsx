@@ -7,6 +7,11 @@ export const UserForm = ({ control }: { control: Control<any> }) => {
     console.log(data)
   }
 
+  const rolesOptions = [
+    { label: 'Administrador', value: 'admin' },
+    { label: 'Usuário', value: 'user' },
+  ]
+
   return (
     <form>
       <DefaultInput
@@ -14,6 +19,20 @@ export const UserForm = ({ control }: { control: Control<any> }) => {
         name="name"
         label="Nome"
         control={control}
+      />
+      <DefaultInput
+        type={InputTypes.TEXT}
+        name="email"
+        label="Email"
+        control={control}
+      />
+      <DefaultInput
+        type={InputTypes.MULTI_SELECT}
+        name="roles"
+        label="Roles"
+        placeholder="Selecione as regras"
+        control={control}
+        options={rolesOptions}
       />
     </form>
   )

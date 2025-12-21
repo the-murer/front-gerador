@@ -19,7 +19,8 @@ export const DefaultPagination = ({
       alignSelf="center"
       count={total}
       pageSize={pageSize}
-      defaultPage={page}
+      page={page}
+      onPageChange={(details) => onPageChange(details.page)}
     >
       <ButtonGroup variant="ghost" size="sm">
         <Pagination.PrevTrigger asChild>

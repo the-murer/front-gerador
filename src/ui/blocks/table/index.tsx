@@ -3,16 +3,22 @@ import {
   getCoreRowModel,
   flexRender,
 } from '@tanstack/react-table'
-import { Table } from '@chakra-ui/react'
+import { Box, Table } from '@chakra-ui/react'
 import TableLoading from './table-loading'
 import TableEmpty from './table-empty'
 import TableError from './table-error'
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 type DefaultTableProps = {
   columns: any[]
   items?: any[]
   loading?: boolean
   error?: string
+  sorting: {
+    onSort: (column: string) => void
+    sortedBy?: string
+    sortOrder?: 'asc' | 'desc'
+  }
 }
 
 export const DefaultTable = ({
@@ -20,12 +26,15 @@ export const DefaultTable = ({
   items,
   loading,
   error,
+  sorting,
 }: DefaultTableProps) => {
   const table = useReactTable({
     data: items || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
+
+  const { sortedBy, sortOrder, onSort } = sorting
 
   if (loading) {
     return <TableLoading />
@@ -44,14 +53,36 @@ export const DefaultTable = ({
       <Table.Header>
         {table.getHeaderGroups().map((hg) => (
           <Table.Row key={hg.id}>
-            {hg.headers.map((header) => (
-              <Table.ColumnHeader key={header.id} textAlign="start">
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-              </Table.ColumnHeader>
-            ))}
+            {hg.headers.map((header) => {
+              const columnDef = header.column.columnDef
+              const accessorKey =
+                'accessorKey' in columnDef
+                  ? (columnDef.accessorKey as string)
+                  : undefined
+              const isSortable = accessorKey && accessorKey !== 'actions'
+
+              return (
+                <Table.ColumnHeader
+                  key={header.id}
+                  textAlign="start"
+                  onClick={isSortable ? () => onSort(accessorKey) : undefined}
+                  cursor={isSortable ? 'pointer' : 'default'}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="row"
+                    gap={1}
+                    userSelect="none"
+                  >
+                    {flexRender(columnDef.header, header.getContext())}
+                    {sortedBy === accessorKey && (
+                      <SortIndicator sortOrder={sortOrder} />
+                    )}
+                  </Box>
+                </Table.ColumnHeader>
+              )
+            })}
           </Table.Row>
         ))}
       </Table.Header>
@@ -68,5 +99,19 @@ export const DefaultTable = ({
         ))}
       </Table.Body>
     </Table.Root>
+  )
+}
+
+const SortIndicator = ({ sortOrder }: { sortOrder?: 'asc' | 'desc' }) => {
+  if (!sortOrder) return null
+
+  return (
+    <Box>
+      {sortOrder === 'asc' ? (
+        <FaArrowUp color="primary.500" />
+      ) : (
+        <FaArrowDown color="primary.500" />
+      )}
+    </Box>
   )
 }

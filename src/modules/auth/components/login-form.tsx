@@ -40,7 +40,7 @@ export default function LoginForm() {
           control={control}
           name="email"
           label="Email"
-          placeHolder="Digite seu email"
+          placeholder="Digite seu email"
           rules={{ required: 'Campo obrigatório' }}
         />
 
@@ -49,7 +49,7 @@ export default function LoginForm() {
           control={control}
           name="password"
           label="Senha"
-          placeHolder="Digite sua senha"
+          placeholder="Digite sua senha"
           rules={{ required: 'Campo obrigatório' }}
         />
 
