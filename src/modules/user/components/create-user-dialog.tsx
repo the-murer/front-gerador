@@ -3,18 +3,32 @@ import { UserForm } from './user-form'
 import { DefaultModal } from '@/ui/blocks/modal/default-modal'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { userBodySerializer } from '../utils/schemas'
+import { useCreateUser } from '../hooks/use-create-user'
+import { toaster } from '@/ui/storybook/toaster'
 
-export const CreateUserDialog = NiceModal.create(({ name }: { name: string }) => {
-  const { handleSubmit, control } = useForm<any>({
-    // resolver: zodResolver(),
+export const CreateUserDialog = NiceModal.create(() => {
+  const modal = useModal()
+  const { mutateAsync: createUser, isPending } = useCreateUser()
+  const { handleSubmit, control } = useForm({
+    resolver: zodResolver(userBodySerializer),
     mode: 'onBlur',
+    defaultValues: {
+      name: '',
+      email: '',
+      roles: [],
+    },
   })
 
-  const modal = useModal()
-
-  const handleFormSubmit = handleSubmit((data: any) => {
-    console.log(data)
+  const handleFormSubmit = handleSubmit(async (data) => {
+    try {
+      await createUser(data)
+      modal.hide()
+    } catch (error) {
+      toaster.error({
+        title: 'Erro ao criar usuário',
+      })
+    }
   })
 
   return (
@@ -24,7 +38,8 @@ export const CreateUserDialog = NiceModal.create(({ name }: { name: string }) =>
         <UserForm control={control} />
       </DefaultModal.Body>
       <DefaultModal.Confirm
-        submit={handleSubmit(handleFormSubmit)}
+        submit={handleFormSubmit}
+        isLoading={isPending}
         onCancel={modal.hide}
       />
     </DefaultModal>

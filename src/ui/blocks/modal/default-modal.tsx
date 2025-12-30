@@ -64,13 +64,19 @@ DefaultModal.Confirm = ({
   submit,
   confirmText = 'Confirmar',
   onCancel,
+  isLoading,
 }: {
   submit: () => void
   onCancel: () => void
   confirmText?: string
+  isLoading?: boolean
 }) => (
   <Dialog.Footer>
-    <Button onClick={onCancel} variant="outline">Cancel</Button>
-    <Button onClick={submit}>{confirmText}</Button>
+    <Button onClick={onCancel} variant="outline">
+      Cancel
+    </Button>
+    <Button onClick={submit} loading={isLoading} disabled={isLoading}>
+      {confirmText}
+    </Button>
   </Dialog.Footer>
 )

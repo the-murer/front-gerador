@@ -30,7 +30,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('Erro na requisição', error)
+    const request = error.config
+    console.error(
+      `Erro na requisição ${request.method?.toUpperCase()} ${request.url}`,
+      error,
+    )
     // Se receber erro 401, limpa o token e redireciona para login
     // if (error.response?.status === 401) {
     //   const { setAuthenticatedUser } = useAuthStore.getState();

@@ -19,6 +19,19 @@ export const useSearchParams = (path: string) => {
     })
   }
 
+  const setSearchParams = (updates: Record<string, any>) => {
+    navigate({
+      to: path,
+      search: (prev: any) => ({
+        sort: prev.sort,
+        sortOrder: prev.sortOrder,
+        page: 1,
+        ...updates,
+      }),
+      replace: !!updates.page,
+    })
+  }
+
   const onSort = (column: string) => {
     let newSort: string | undefined = column
     let newSortOrder: 'asc' | 'desc' | undefined = 'asc'
@@ -41,6 +54,7 @@ export const useSearchParams = (path: string) => {
   return {
     search,
     updateSearchParams,
+    setSearchParams,
     sort: {
       onSort,
       sortOrder: search.sortOrder,

@@ -1,6 +1,6 @@
-import { api } from '@/modules/common/api'
 import { useMutation } from '@tanstack/react-query'
 import { useAuthStore } from '../stores/auth-user-store'
+import { api } from '@/common/api'
 
 export type LoginPayload = {
   email: string

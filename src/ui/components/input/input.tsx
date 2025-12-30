@@ -1,9 +1,9 @@
 import { Field } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
-import { inputMaps, type InputTypes } from './input-map'
+import { inputMaps, InputTypes } from './input-map'
 
 type DefaultInput = {
-  type: InputTypes
+  type?: InputTypes
   name: string
   label: string
   placeholder?: string
@@ -12,7 +12,12 @@ type DefaultInput = {
   options?: any
 }
 
-export const DefaultInput = ({ name, type, label, ...rest }: DefaultInput) => {
+export const DefaultInput = ({
+  name,
+  type = InputTypes.TEXT,
+  label,
+  ...rest
+}: DefaultInput) => {
   const Component = inputMaps.get(type)!
   return (
     <Field.Root mb={3}>

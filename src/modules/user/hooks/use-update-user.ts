@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { userApi } from '../utils/constants'
 import { toaster } from '@/ui/storybook/toaster'
-import type { UserBodySerializerType } from '../utils/schemas'
+import type { UserUpdateSerializerType } from '../utils/schemas'
 
-export const useCreateUser = () => {
+export const useUpdateUser = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: UserBodySerializerType) =>
-      userApi.create(data, { queryClient }),
+    mutationFn: ({ id, data }: { id: string; data: UserUpdateSerializerType }) =>
+      userApi.update(id, data, { queryClient }),
     onSuccess: () => {
       toaster.success({
-        title: 'Usuário criado com sucesso',
+        title: 'Usuário atualizado com sucesso',
       })
     },
   })

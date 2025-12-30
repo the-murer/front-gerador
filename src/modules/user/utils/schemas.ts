@@ -1,22 +1,26 @@
 import { z } from 'zod'
 
 const userSchema = z.object({
+  _id: z.string().optional(),
   active: z.boolean(),
   name: z.string().min(3),
-  email: z.email(),
+  email: z.string().email(),
   roles: z.array(z.string()),
+})
+
+
+export const userBodySerializer = userSchema.omit({
+  _id: true,
+  active: true,
+})
+
+export const userUpdateSerializer = userSchema.pick({
+  name: true,
+  email: true,
+  roles: true,
 })
 
 export type User = z.infer<typeof userSchema>
 
-export const userBodySerializer = userSchema.omit({
-  active: true,
-})
-
-export const userUpdateSerializer = userSchema.omit({
-  active: true,
-})
-
-export const userPaginatedSerializer = userSchema.omit({
-  active: true,
-})
+export type UserBodySerializerType = z.infer<typeof userBodySerializer>
+export type UserUpdateSerializerType = z.infer<typeof userUpdateSerializer>

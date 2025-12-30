@@ -13,7 +13,7 @@ export interface IBaseEndpoint<T> {
   }
   find(params: PaginatedParams): Promise<PaginatedResponse<T>>
   get(id: string): Promise<T>
-  create(data: T, options?: IBaseEndpointOptions): Promise<T>
+  create(data: unknown, options?: IBaseEndpointOptions): Promise<T>
   update(
     id: string,
     data: Partial<T>,
@@ -49,7 +49,7 @@ export abstract class DefaultEndpoint<T> implements IBaseEndpoint<T> {
     queryClient.invalidateQueries({ queryKey: this.keys.get(id) })
   }
 
-  async create(data: T, options?: IBaseEndpointOptions): Promise<T> {
+  async create(data: unknown, options?: IBaseEndpointOptions): Promise<T> {
     return api.post<T>(this.basePath, data).then((r: AxiosResponse<T>) => {
       this.invalidateFindQueries(options?.queryClient)
       return r.data

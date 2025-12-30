@@ -4,9 +4,13 @@ import { DefaultPage } from '@/ui/templates/default-page'
 import { useUserColumns } from '../components/user-columns'
 import { useFindUsers } from '../hooks/use-find-users'
 import { useSearchParams } from '@/common/hooks/use-list-search-params'
+import { UsersFilters } from '../components/user-filters'
+import { useModal } from '@ebay/nice-modal-react'
+import { CreateUserDialog } from '../components/create-user-dialog'
 
 export const UsersPage = () => {
-  const { search, sort, handlePageChange } = useSearchParams('/admin/users/')
+  const { search, sort, handlePageChange, setSearchParams } =
+    useSearchParams('/admin/users/')
   const { page = 1 } = search
 
   const { data } = useFindUsers({
@@ -16,14 +20,20 @@ export const UsersPage = () => {
   })
 
   const columns = useUserColumns()
+  const createUserDialog = useModal(CreateUserDialog)
 
   return (
     <DefaultPage>
       <DefaultPage.Header
         title="Usuários"
         description="Listagem de usuários cadastrados no sistema"
-      />
+        onActionClick={createUserDialog.show}
+      >
+        <UsersFilters search={search} updateSearchParams={setSearchParams} />
+      </DefaultPage.Header>
+
       <DefaultTable items={data?.items} columns={columns} sorting={sort} />
+
       <DefaultPagination
         page={page}
         pageSize={10}

@@ -5,8 +5,12 @@ import {
 
 export type User = {
   _id: string
+  active: boolean
   name: string
   email: string
+  roles: string[]
+  createdAt: string
+  updatedAt: string
 }
 
 class UserEndpoints extends DefaultEndpoint<User> {
