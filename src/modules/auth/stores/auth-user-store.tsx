@@ -32,6 +32,11 @@ export const useAuthenticatedUser = () => {
   return { authenticatedUser }
 }
 
+export const useIsAuthenticated = () => {
+  const accessToken = useAuthStore((s) => s.accessToken)
+  return !!accessToken
+}
+
 export const useSetAuthenticatedUser = () => {
   const setAuthenticatedUser = useAuthStore((s) => s.setAuthenticatedUser)
   return { setAuthenticatedUser }

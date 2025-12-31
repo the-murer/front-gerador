@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useLogin } from '../hooks/use-login'
 import { DefaultInput } from '@/ui/components/input/input'
 import { InputTypes } from '@/ui/components/input/input-map'
-import { useAuthenticatedUser } from '../stores/auth-user-store'
 import { useNavigate } from '@tanstack/react-router'
 
 type LoginForm = {
@@ -15,11 +14,6 @@ export default function LoginForm() {
   const navigate = useNavigate()
   const { mutateAsync: login } = useLogin()
   const { handleSubmit, control } = useForm<LoginForm>()
-  const { authenticatedUser } = useAuthenticatedUser()
-
-  if (authenticatedUser) {
-    navigate({ to: '/admin/dashboard' })
-  }
 
   const onSubmit = async (data: LoginForm) => {
     try {
@@ -30,10 +24,8 @@ export default function LoginForm() {
     }
   }
 
-  console.log('authenticatedUser', authenticatedUser)
-
   return (
-    <VStack w="300px">
+    <VStack w="lg">
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
         <DefaultInput
           type={InputTypes.TEXT}
@@ -57,6 +49,13 @@ export default function LoginForm() {
           Entrar
         </Button>
       </form>
+      <Button
+        variant="subtle"
+        w="full"
+        onClick={() => navigate({ to: '/auth/forgot-password' })}
+      >
+        Esqueceu sua senha
+      </Button>
     </VStack>
   )
 }

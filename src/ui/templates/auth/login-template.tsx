@@ -1,6 +1,15 @@
+import { useIsAuthenticated } from '@/modules/auth/stores/auth-user-store'
 import { HStack, Image, Text, VStack } from '@chakra-ui/react'
+import { useNavigate } from '@tanstack/react-router'
 
 export function LoginTemplate({ children }: { children: React.ReactNode }) {
+  const isAuthenticated = useIsAuthenticated()
+  const navigate = useNavigate()
+
+  if (isAuthenticated) {
+    navigate({ to: '/admin/dashboard' })
+  }
+
   return (
     <HStack w="full" h="100vh" overflowY="hidden">
       {children}
@@ -9,9 +18,11 @@ export function LoginTemplate({ children }: { children: React.ReactNode }) {
 }
 
 const LeftImage = () => {
-  return <VStack h="100%" w="60%" hideBelow="md" >
-    <Image src="../../../../../public/login-hero.png" height="100vh" />
-  </VStack>
+  return (
+    <VStack h="100%" w="60%" hideBelow="md">
+      <Image src="../../../../../public/login-hero.png" height="100vh" />
+    </VStack>
+  )
 }
 
 const Form = ({ title, description, children }: LoginFormType) => {
@@ -21,9 +32,11 @@ const Form = ({ title, description, children }: LoginFormType) => {
         <Text fontSize="2xl" fontWeight="bold">
           {title}
         </Text>
-        <Text fontSize="md" color="gray.500">
-          {description}
-        </Text>
+        {description && (
+          <Text fontSize="md" color="gray.500">
+            {description}
+          </Text>
+        )}
       </VStack>
       {children}
     </VStack>
@@ -35,6 +48,6 @@ LoginTemplate.Form = Form
 
 type LoginFormType = {
   title: string
-  description: string
+  description?: string
   children: React.ReactNode
 }
