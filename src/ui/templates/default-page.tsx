@@ -9,18 +9,21 @@ import {
 } from 'react'
 import { FilterIcon, PlusIcon } from 'lucide-react'
 import { Button } from '../components/button/button'
+import type { Actions, Subjects } from '@/modules/auth/utils/ability.factory'
+import { Can } from '@/modules/auth/components/can'
 
 type DefaultPageProps = {
   children: ReactNode
-  entity?: string
-  action?: string
+  action?: Actions
+  subject?: Subjects
+  viewPermission?: { action: Actions; subject: Subjects }
 }
 
-export const DefaultPage = ({ children, entity, action }: DefaultPageProps) => {
+export const DefaultPage = ({ children, viewPermission }: DefaultPageProps) => {
   const { authenticatedUser } = useAuthenticatedUser()
 
-  if (entity && action) {
-    if (can(authenticatedUser, entity, action)) {
+  if (viewPermission) {
+    if (can(authenticatedUser, viewPermission.action, viewPermission.subject)) {
       return <Stack p="40px">{children}</Stack>
     }
     return null
@@ -33,6 +36,7 @@ type PageHeaderProps = {
   description?: string
   onActionClick?: () => void
   children?: ReactNode
+  createPermission?: { action: Actions; subject: Subjects }
 }
 
 const PageHeader = ({
@@ -40,6 +44,7 @@ const PageHeader = ({
   description,
   children,
   onActionClick,
+  createPermission,
 }: PageHeaderProps) => {
   const [showFilters, setShowFilters] = useState(false)
 
@@ -54,7 +59,16 @@ const PageHeader = ({
         </Stack>
         <HStack>
           {!!children && <PageFilters setShowFilters={setShowFilters} />}
-          {onActionClick && <ActionComponent onClick={onActionClick} />}
+          {onActionClick && createPermission ? (
+            <Can
+              action={createPermission.action}
+              subject={createPermission.subject}
+            >
+              <ActionComponent onClick={onActionClick} />
+            </Can>
+          ) : onActionClick ? (
+            <ActionComponent onClick={onActionClick} />
+          ) : null}
         </HStack>
       </HStack>
       <Collapsible.Root w="full" p="4" open={showFilters}>

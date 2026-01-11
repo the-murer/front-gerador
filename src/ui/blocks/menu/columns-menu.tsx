@@ -16,9 +16,15 @@ export const ColumnsMenu = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-ColumnsMenu.EditItem = ({ onClick }: { onClick: () => void }) => {
+ColumnsMenu.EditItem = ({
+  onClick,
+  disabled,
+}: {
+  onClick: () => void
+  disabled?: boolean
+}) => {
   return (
-    <Menu.Item onClick={onClick} value="edit">
+    <Menu.Item onClick={onClick} value="edit" disabled={disabled}>
       <PencilIcon height={16} width={16} />
       Editar
     </Menu.Item>

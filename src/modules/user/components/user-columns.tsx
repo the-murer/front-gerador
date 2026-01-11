@@ -10,8 +10,10 @@ import { formatDate } from '@/common/utils/time-utils'
 
 export const useUserColumns = () => {
   const { mutateAsync: changeUserActive } = useChangeUserActive()
-
+  const ability = useAbility()
   const editUserModal = useModal(UpdateUserDialog)
+
+  const canUpdateUser = ability.can('update', 'User')
 
   return [
     {
@@ -19,6 +21,7 @@ export const useUserColumns = () => {
       header: 'Ativo',
       cell: ({ getValue, row }) => (
         <Switch
+          disabled={!canUpdateUser}
           value={getValue() as boolean}
           onChange={(value) => {
             changeUserActive({ id: row.original._id, active: value })
@@ -41,6 +44,7 @@ export const useUserColumns = () => {
       cell: ({ row }) => (
         <ColumnsMenu>
           <ColumnsMenu.EditItem
+disabled={!canUpdateUser}
             onClick={() => editUserModal.show({ user: row.original })}
           />
         </ColumnsMenu>

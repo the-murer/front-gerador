@@ -36,15 +36,14 @@ api.interceptors.response.use(
       error,
     )
     // Se receber erro 401, limpa o token e redireciona para login
-    // if (error.response?.status === 401) {
-    //   const { setAuthenticatedUser } = useAuthStore.getState();
-    //   setAuthenticatedUser(null);
+    if (error.response?.status === 401) {
+      const { setAuthenticatedUser } = useAuthStore.getState();
+      setAuthenticatedUser(null);
 
-    //   // Redireciona para login apenas se não estiver já na página de login
-    //   if (window.location.pathname !== '/auth/login') {
-    //     window.location.href = '/auth/login';
-    //   }
-    // }
+      if (window.location.pathname !== '/auth/login') {
+        window.location.href = '/auth/login';
+      }
+    }
 
     return Promise.reject(error)
   },

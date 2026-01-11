@@ -1,6 +1,7 @@
 import type { User } from '@/modules/user/utils/constants'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { defineAbility, type AppAbility } from '../utils/ability.factory'
 
 type AuthState = {
   accessToken: string | null
@@ -30,6 +31,12 @@ export const useAuthenticatedUser = () => {
   const authenticatedUser = decodeJwt(accessToken)
 
   return { authenticatedUser }
+}
+
+export const useAbility = (): AppAbility => {
+  const accessToken = useAuthStore((s) => s.accessToken)
+  const user = accessToken ? decodeJwt(accessToken) : null
+  return defineAbility(user)
 }
 
 export const useIsAuthenticated = () => {
