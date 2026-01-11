@@ -10,7 +10,7 @@ export const useChangeUserActive = () => {
       userApi.changeActive(id, active, { queryClient }),
     onSuccess: () => {
       toaster.success({
-        title: 'Usuário ativado com sucesso',
+        title: 'Usuário atualizado com sucesso',
       })
     },
   })
