@@ -23,11 +23,12 @@ export const UsersPage = () => {
   const createUserDialog = useModal(CreateUserDialog)
 
   return (
-    <DefaultPage>
+    <DefaultPage viewPermission={{ action: 'read', subject: 'User' }}>
       <DefaultPage.Header
         title="Usuários"
         description="Listagem de usuários cadastrados no sistema"
         onActionClick={createUserDialog.show}
+        createPermission={{ action: 'create', subject: 'User' }}
       >
         <UsersFilters search={search} updateSearchParams={setSearchParams} />
       </DefaultPage.Header>

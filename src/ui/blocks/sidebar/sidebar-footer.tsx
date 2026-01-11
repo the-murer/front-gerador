@@ -16,6 +16,10 @@ import {
 } from '@/modules/auth/stores/auth-user-store'
 import { useColorModeValue } from '@/ui/utils/color-mode'
 import { Tooltip } from '@/ui/storybook/tooltip'
+import {
+  getUserBackgroundColor,
+  getUserInitials,
+} from '@/modules/user/utils/user-utils'
 
 export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
   const navigate = useNavigate()
@@ -29,11 +33,13 @@ export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
 
   const goToProfile = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    navigate({ to: `/admin/users/${authenticatedUser?.sub}` })
+    navigate({ to: `/admin/users/${authenticatedUser?._id}` })
   }
 
-  const avatarBg = useColorModeValue('gray.200', 'gray.800')
   const subtleText = useColorModeValue('gray.500', 'gray.400')
+
+  const userInitials = getUserInitials(authenticatedUser?.name)
+  const userBackgroundColor = getUserBackgroundColor(authenticatedUser?.name)
 
   return (
     <Box px={collapsed ? 2 : 4} py={4}>
@@ -47,18 +53,15 @@ export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
         <Flex
           boxSize="10"
           borderRadius="full"
-          bg={avatarBg}
+          bg={userBackgroundColor}
           align="center"
           justify="center"
           flexShrink={0}
           overflow="hidden"
         >
-          <Image
-            src="/logo192.png"
-            alt="Profile"
-            boxSize="10"
-            objectFit="cover"
-          />
+          <Text fontWeight="semibold" fontSize="sm" color="white">
+            {userInitials}
+          </Text>
         </Flex>
 
         {!collapsed && (

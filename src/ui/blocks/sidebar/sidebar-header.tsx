@@ -21,13 +21,13 @@ export const SidebarHeader = ({
         <Flex
           boxSize="10"
           borderRadius="lg"
-          bg={brandBg}
+          // bg={brandBg}
           align="center"
           justify="center"
           flexShrink={0}
         >
           <Image
-            src="/tanstack-circle-logo.png"
+            src="/logo192.png"
             alt="Logo"
             boxSize="6"
             objectFit="contain"
@@ -39,13 +39,13 @@ export const SidebarHeader = ({
             h="10"
             px={2}
             borderRadius="lg"
-            bg={brandBg}
+            // bg={brandBg}
             align="center"
             justify="center"
             flexShrink={0}
           >
             <Image
-              src="/tanstack-circle-logo.png"
+              src="/logo192.png"
               alt="Logo"
               h="7"
               w="auto"

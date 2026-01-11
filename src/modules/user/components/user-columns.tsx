@@ -7,6 +7,9 @@ import { UpdateUserDialog } from './update-user-dialog'
 import { ColumnsMenu } from '@/ui/blocks/menu/columns-menu'
 import { Typography } from '@/ui/components/typography/typography'
 import { formatDate } from '@/common/utils/time-utils'
+import { useAbility } from '@/modules/auth/stores/auth-user-store'
+import { Flex } from '@chakra-ui/react'
+import { getUserBackgroundColor, getUserInitials } from '../utils/user-utils'
 
 export const useUserColumns = () => {
   const { mutateAsync: changeUserActive } = useChangeUserActive()
@@ -29,6 +32,24 @@ export const useUserColumns = () => {
         />
       ),
     },
+    {
+      accessorKey: 'profilePicture',
+      header: 'Foto de perfil',
+      cell: ({ row }) => (
+        <Flex
+          boxSize="10"
+          borderRadius="full"
+          bg={getUserBackgroundColor(row.original.name)}
+          align="center"
+          justify="center"
+          flexShrink={0}
+          overflow="hidden"
+        >
+          {getUserInitials(row.original.name)}
+        </Flex>
+      ),
+    },
+
     { accessorKey: 'name', header: 'Nome' },
     { accessorKey: 'email', header: 'Email' },
     {
@@ -44,7 +65,7 @@ export const useUserColumns = () => {
       cell: ({ row }) => (
         <ColumnsMenu>
           <ColumnsMenu.EditItem
-disabled={!canUpdateUser}
+            disabled={!canUpdateUser}
             onClick={() => editUserModal.show({ user: row.original })}
           />
         </ColumnsMenu>
