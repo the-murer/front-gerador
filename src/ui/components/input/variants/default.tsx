@@ -1,11 +1,25 @@
 import { Input } from '@chakra-ui/react'
+import type { DefaultBaseInputProps } from '../input-map'
+import { Controller } from 'react-hook-form'
 
-export type TextInputProps = {
-  field: any
-  fieldState: any
+export interface TextInputProps extends DefaultBaseInputProps {
   placeholder?: string
 }
 
-export function TextInput({ field, placeholder }: TextInputProps) {
-  return <Input {...field} placeholder={placeholder} type="text" />
+export function TextInput({
+  name,
+  control,
+  rules,
+  placeholder,
+}: TextInputProps) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field }) => (
+        <Input {...field} placeholder={placeholder} type="text" />
+      )}
+    />
+  )
 }

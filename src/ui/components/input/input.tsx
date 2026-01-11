@@ -1,34 +1,37 @@
 import { Field } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
-import { inputMaps, InputTypes } from './input-map'
+import { inputMaps, InputTypes, type MappedInputProps } from './input-map'
 
-type DefaultInput = {
-  type?: InputTypes
-  name: string
+type DefaultInputProps<T extends InputTypes> = MappedInputProps[T] & {
+  type: T
   label: string
-  placeholder?: string
-  control: any
-  rules?: any
-  options?: any
 }
 
-export const DefaultInput = ({
+export const DefaultInput = <T extends InputTypes>({
   name,
-  type = InputTypes.TEXT,
+  type,
   label,
+  control,
+  rules,
   ...rest
-}: DefaultInput) => {
-  const Component = inputMaps.get(type)!
+}: DefaultInputProps<T>) => {
+  const Component = inputMaps.get(type) as any as React.ComponentType<any>
   return (
     <Field.Root mb={3}>
       <Field.Label>{label}</Field.Label>
       <Controller
         name={name}
-        control={rest.control}
-        rules={rest.rules}
+        control={control}
+        rules={rules}
         render={({ field, fieldState }) => (
           <>
-            <Component field={field} fieldState={fieldState} {...rest} />
+            <Component
+              name={name}
+              control={control}
+              rules={rules}
+              {...rest}
+              field={field}
+            />
             {fieldState.error && (
               <Field.ErrorText>{fieldState.error.message}</Field.ErrorText>
             )}

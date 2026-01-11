@@ -1,5 +1,6 @@
 import { DefaultInput } from '@/ui/components/input/input'
 import { InputTypes } from '@/ui/components/input/input-map'
+import { FileTypes } from '@/ui/components/input/variants/file-input'
 import { type Control } from 'react-hook-form'
 
 export const UserForm = ({ control }: { control: Control<any> }) => {
@@ -10,6 +11,13 @@ export const UserForm = ({ control }: { control: Control<any> }) => {
 
   return (
     <form>
+      <DefaultInput
+        type={InputTypes.FILE}
+        name="profilePicture"
+        label="Foto de perfil"
+        control={control}
+        accept={FileTypes.IMAGE}
+      />
       <DefaultInput
         type={InputTypes.TEXT}
         name="name"
