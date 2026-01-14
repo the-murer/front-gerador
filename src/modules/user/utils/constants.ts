@@ -8,6 +8,7 @@ export type User = {
   active: boolean
   name: string
   email: string
+  profilePictureUrl?: string
   roles: string[]
   createdAt: string
   updatedAt: string
@@ -28,6 +29,21 @@ class UserEndpoints extends DefaultEndpoint<User> {
         id,
         active,
       })
+      .then((r) => {
+        this.invalidateGetQueries(id, options?.queryClient)
+        this.invalidateFindQueries(options?.queryClient)
+
+        return r.data
+      })
+  }
+
+  async updateProfilePicture(
+    id: string,
+    fileId: string,
+    options?: IBaseEndpointOptions,
+  ) {
+    return this.api
+      .patch<User>(`${this.basePath}/profile-picture`, { id, fileId })
       .then((r) => {
         this.invalidateGetQueries(id, options?.queryClient)
         this.invalidateFindQueries(options?.queryClient)

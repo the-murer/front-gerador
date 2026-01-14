@@ -71,7 +71,7 @@ export function AdminHeader() {
 
         <Divider />
 
-        <VStack align="stretch" gap={1} px={2} py={3} flex="1" overflowY="auto">
+        <VStack align="stretch" gap={1} px={2} py={3} flex="1" overflowY="scroll">
           {NAV_ITEMS.map((item) => {
             return (
               <SidebarItem

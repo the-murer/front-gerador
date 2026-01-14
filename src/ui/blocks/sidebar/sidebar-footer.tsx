@@ -53,15 +53,25 @@ export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
         <Flex
           boxSize="10"
           borderRadius="full"
-          bg={userBackgroundColor}
+          bg={authenticatedUser?.profilePictureUrl ? 'transparent' : userBackgroundColor}
           align="center"
           justify="center"
           flexShrink={0}
           overflow="hidden"
         >
-          <Text fontWeight="semibold" fontSize="sm" color="white">
-            {userInitials}
-          </Text>
+          {authenticatedUser?.profilePictureUrl ? (
+            <Image
+              src={authenticatedUser?.profilePictureUrl}
+              alt="Foto de perfil"
+              boxSize="10"
+              objectFit="cover"
+              borderRadius="full"
+            />
+          ) : (
+            <Text fontWeight="semibold" fontSize="sm" color="white">
+              {userInitials}
+            </Text>
+          )}
         </Flex>
 
         {!collapsed && (

@@ -10,6 +10,7 @@ import {
   XIcon,
   UploadIcon,
 } from 'lucide-react'
+import { useUploadFile } from '@/modules/files/hooks/use-upload-file'
 
 export enum FileTypes {
   IMAGE = 'image/*',
@@ -163,6 +164,11 @@ export function FileInput({
 }: FileInputProps & { field?: any }) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [filePreviews, setFilePreviews] = useState<Map<string | number, File>>(
+    new Map(),
+  )
+  const { mutateAsync: uploadFile, isPending: isUploadingFile } =
+    useUploadFile()
 
   const handleFileChange = useCallback(
     (files: FileList | null, onChange: (value: any) => void) => {
@@ -171,11 +177,33 @@ export function FileInput({
       if (multiple) {
         const fileArray = Array.from(files)
         onChange(fileArray)
+        // Armazenar previews para múltiplos arquivos
+        fileArray.forEach((file, index) => {
+          setFilePreviews((prev) => new Map(prev).set(index, file))
+        })
       } else {
-        onChange(files[0])
+        const selectedFile = files[0]
+        // Armazenar preview do arquivo original
+        setFilePreviews((prev) => new Map(prev).set('single', selectedFile))
+        onChange(selectedFile)
+        uploadFile(selectedFile)
+          .then((file) => {
+            onChange(file._id)
+            // Manter o preview do arquivo original mesmo após o upload
+          })
+          .catch((error) => {
+            console.error(error)
+            // Em caso de erro, limpar o preview
+            setFilePreviews((prev) => {
+              const newMap = new Map(prev)
+              newMap.delete('single')
+              return newMap
+            })
+            onChange(null)
+          })
       }
     },
-    [multiple],
+    [multiple, uploadFile],
   )
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -201,6 +229,15 @@ export function FileInput({
   )
 
   if (field) {
+    // Se o valor for um ID (string) e não um File, usar o preview armazenado
+    const getFileForPreview = (value: any, index: number | string) => {
+      if (value instanceof File) {
+        return value
+      }
+      // Se for um ID ou outro valor, tentar pegar do preview armazenado
+      return filePreviews.get(index) || null
+    }
+
     const files = field.value
       ? Array.isArray(field.value)
         ? field.value
@@ -211,8 +248,20 @@ export function FileInput({
       if (multiple) {
         const newFiles = files.filter((_: any, i: number) => i !== index)
         field.onChange(newFiles.length > 0 ? newFiles : null)
+        // Remover preview
+        setFilePreviews((prev) => {
+          const newMap = new Map(prev)
+          newMap.delete(index)
+          return newMap
+        })
       } else {
         field.onChange(null)
+        // Limpar preview
+        setFilePreviews((prev) => {
+          const newMap = new Map(prev)
+          newMap.delete('single')
+          return newMap
+        })
       }
     }
 
@@ -262,21 +311,39 @@ export function FileInput({
           <Box>
             <Text fontSize="sm" fontWeight="medium" mb={2}>
               Arquivos selecionados ({files.length})
+              {isUploadingFile && (
+                <Text as="span" fontSize="xs" color="fg.muted" ml={2}>
+                  (Enviando...)
+                </Text>
+              )}
             </Text>
             {multiple ? (
               <Flex gap={3} flexWrap="wrap">
-                {files.map((file: File, index: number) => (
-                  <Box key={index} width={{ base: '100%', md: '150px' }}>
-                    <FilePreview
-                      file={file}
-                      onRemove={() => handleRemove(index)}
-                    />
-                  </Box>
-                ))}
+                {files.map((file: any, index: number) => {
+                  const previewFile = getFileForPreview(file, index)
+                  if (!previewFile) return null
+                  return (
+                    <Box key={index} width={{ base: '100%', md: '150px' }}>
+                      <FilePreview
+                        file={previewFile}
+                        onRemove={() => handleRemove(index)}
+                      />
+                    </Box>
+                  )
+                })}
               </Flex>
             ) : (
               <Box width={{ base: '100%', md: '200px' }}>
-                <FilePreview file={files[0]} onRemove={() => handleRemove(0)} />
+                {(() => {
+                  const previewFile = getFileForPreview(files[0], 'single')
+                  if (!previewFile) return null
+                  return (
+                    <FilePreview
+                      file={previewFile}
+                      onRemove={() => handleRemove(0)}
+                    />
+                  )
+                })()}
               </Box>
             )}
           </Box>
@@ -287,10 +354,19 @@ export function FileInput({
 
   return (
     <Controller
-      name={name}
+      name={`${name}-picture`}
       control={control}
       rules={rules}
       render={({ field: controllerField }) => {
+        // Se o valor for um ID (string) e não um File, usar o preview armazenado
+        const getFileForPreview = (value: any, index: number | string) => {
+          if (value instanceof File) {
+            return value
+          }
+          // Se for um ID ou outro valor, tentar pegar do preview armazenado
+          return filePreviews.get(index) || null
+        }
+
         const files = controllerField.value
           ? Array.isArray(controllerField.value)
             ? controllerField.value
@@ -301,8 +377,20 @@ export function FileInput({
           if (multiple) {
             const newFiles = files.filter((_: any, i: number) => i !== index)
             controllerField.onChange(newFiles.length > 0 ? newFiles : null)
+            // Remover preview
+            setFilePreviews((prev) => {
+              const newMap = new Map(prev)
+              newMap.delete(index)
+              return newMap
+            })
           } else {
             controllerField.onChange(null)
+            // Limpar preview
+            setFilePreviews((prev) => {
+              const newMap = new Map(prev)
+              newMap.delete('single')
+              return newMap
+            })
           }
         }
 
@@ -354,24 +442,39 @@ export function FileInput({
               <Box>
                 <Text fontSize="sm" fontWeight="medium" mb={2}>
                   Arquivos selecionados ({files.length})
+                  {isUploadingFile && (
+                    <Text as="span" fontSize="xs" color="fg.muted" ml={2}>
+                      (Enviando...)
+                    </Text>
+                  )}
                 </Text>
                 {multiple ? (
                   <Flex gap={3} flexWrap="wrap">
-                    {files.map((file: File, index: number) => (
-                      <Box key={index} width={{ base: '100%', md: '150px' }}>
-                        <FilePreview
-                          file={file}
-                          onRemove={() => handleRemove(index)}
-                        />
-                      </Box>
-                    ))}
+                    {files.map((file: any, index: number) => {
+                      const previewFile = getFileForPreview(file, index)
+                      if (!previewFile) return null
+                      return (
+                        <Box key={index} width={{ base: '100%', md: '150px' }}>
+                          <FilePreview
+                            file={previewFile}
+                            onRemove={() => handleRemove(index)}
+                          />
+                        </Box>
+                      )
+                    })}
                   </Flex>
                 ) : (
                   <Box width={{ base: '100%', md: '200px' }}>
-                    <FilePreview
-                      file={files[0]}
-                      onRemove={() => handleRemove(0)}
-                    />
+                    {(() => {
+                      const previewFile = getFileForPreview(files[0], 'single')
+                      if (!previewFile) return null
+                      return (
+                        <FilePreview
+                          file={previewFile}
+                          onRemove={() => handleRemove(0)}
+                        />
+                      )
+                    })()}
                   </Box>
                 )}
               </Box>

@@ -10,12 +10,14 @@ import { formatDate } from '@/common/utils/time-utils'
 import { useAbility } from '@/modules/auth/stores/auth-user-store'
 import { Flex } from '@chakra-ui/react'
 import { getUserBackgroundColor, getUserInitials } from '../utils/user-utils'
+import { ImageIcon } from 'lucide-react'
+import { UpdateProfilePictureDialog } from './update-profile-picture-dialog'
 
 export const useUserColumns = () => {
   const { mutateAsync: changeUserActive } = useChangeUserActive()
   const ability = useAbility()
   const editUserModal = useModal(UpdateUserDialog)
-
+  const updateProfilePictureModal = useModal(UpdateProfilePictureDialog)
   const canUpdateUser = ability.can('update', 'User')
 
   return [
@@ -35,19 +37,35 @@ export const useUserColumns = () => {
     {
       accessorKey: 'profilePicture',
       header: 'Foto de perfil',
-      cell: ({ row }) => (
-        <Flex
-          boxSize="10"
-          borderRadius="full"
-          bg={getUserBackgroundColor(row.original.name)}
-          align="center"
-          justify="center"
-          flexShrink={0}
-          overflow="hidden"
-        >
-          {getUserInitials(row.original.name)}
-        </Flex>
-      ),
+      cell: ({ row }) => {
+        if (row.original.profilePictureUrl) {
+          return (
+            <Flex
+              boxSize="10"
+              borderRadius="full"
+              align="center"
+              justify="center"
+              flexShrink={0}
+              overflow="hidden"
+            >
+              <img src={row.original.profilePictureUrl} alt="Foto de perfil" />
+            </Flex>
+          )
+        }
+        return (
+          <Flex
+            boxSize="10"
+            borderRadius="full"
+            bg={getUserBackgroundColor(row.original.name)}
+            align="center"
+            justify="center"
+            flexShrink={0}
+            overflow="hidden"
+          >
+            {getUserInitials(row.original.name)}
+          </Flex>
+        )
+      },
     },
 
     { accessorKey: 'name', header: 'Nome' },
@@ -67,6 +85,13 @@ export const useUserColumns = () => {
           <ColumnsMenu.EditItem
             disabled={!canUpdateUser}
             onClick={() => editUserModal.show({ user: row.original })}
+          />
+          <ColumnsMenu.Item
+            icon={<ImageIcon height={16} width={16} />}
+            label="Foto de perfil"
+            onClick={() =>
+              updateProfilePictureModal.show({ user: row.original })
+            }
           />
         </ColumnsMenu>
       ),
