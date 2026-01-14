@@ -18,7 +18,7 @@ function RouteComponent() {
   return (
     <Flex h="100vh">
       <AdminHeader />
-      <Box flex="1" minW={0}>
+      <Box flex="1" minW={0} overflowY="scroll">
         <Outlet />
       </Box>
     </Flex>
