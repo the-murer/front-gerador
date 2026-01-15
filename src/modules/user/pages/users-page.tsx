@@ -13,7 +13,7 @@ export const UsersPage = () => {
     useSearchParams('/admin/users/')
   const { page = 1 } = search
 
-  const { data } = useFindUsers({
+  const { data, isLoading, error } = useFindUsers({
     page,
     sort: sort.sortedBy,
     sortOrder: sort.sortOrder,
@@ -23,7 +23,7 @@ export const UsersPage = () => {
   const createUserDialog = useModal(CreateUserDialog)
 
   return (
-    <DefaultPage viewPermission={{ action: 'read', subject: 'User' }}>
+    <DefaultPage action="read" subject="User">
       <DefaultPage.Header
         title="Usuários"
         description="Listagem de usuários cadastrados no sistema"
@@ -33,7 +33,13 @@ export const UsersPage = () => {
         <UsersFilters search={search} updateSearchParams={setSearchParams} />
       </DefaultPage.Header>
 
-      <DefaultTable items={data?.items} columns={columns} sorting={sort} />
+      <DefaultTable
+        items={data?.items}
+        columns={columns}
+        sorting={sort}
+        loading={isLoading}
+        error={error?.message}
+      />
 
       <DefaultPagination
         page={page}

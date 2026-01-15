@@ -36,17 +36,11 @@ export const DefaultTable = ({
 
   const { sortedBy, sortOrder, onSort } = sorting
 
-  if (loading) {
-    return <TableLoading />
-  }
+  if (loading) return <TableLoading columns={columns.length} limit={10} />
 
-  if (error) {
-    return <TableError error={error} />
-  }
+  if (error) return <TableError error={error} />
 
-  if (!items) {
-    return <TableEmpty />
-  }
+  if (!items && !loading && !error) return <TableEmpty />
 
   return (
     <Table.Root size="lg">

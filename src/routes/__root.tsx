@@ -5,13 +5,14 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import TanStackQueryDevtools from '../common/tanstack-query/devtools'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { NotFoundPage } from '@/ui/templates/not-found-page'
 
 interface MyRouterContext {
   queryClient: QueryClient
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  notFoundComponent: () => <div>achei foi nada pai</div>,
+  notFoundComponent: NotFoundPage,
   component: () => (
     <>
       <Outlet />

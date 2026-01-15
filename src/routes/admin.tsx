@@ -1,10 +1,12 @@
 import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
 import { AdminHeader } from '@/ui/blocks/header/admin-header'
+import { NotFoundPage } from '@/ui/templates/not-found-page'
 import { Box, Flex } from '@chakra-ui/react'
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/admin')({
   component: RouteComponent,
+  notFoundComponent: NotFoundPage,
 })
 
 function RouteComponent() {

@@ -1,5 +1,3 @@
-import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
-import { can } from '@/modules/auth/components/can'
 import { Collapsible, Heading, HStack, Stack, VStack } from '@chakra-ui/react'
 import {
   useState,
@@ -11,24 +9,30 @@ import { FilterIcon, PlusIcon } from 'lucide-react'
 import { Button } from '../components/button/button'
 import type { Actions, Subjects } from '@/modules/auth/utils/ability.factory'
 import { Can } from '@/modules/auth/components/can'
+import { MissingPermissionPage } from './missing-permission-page'
 
 type DefaultPageProps = {
   children: ReactNode
   action?: Actions
   subject?: Subjects
-  viewPermission?: { action: Actions; subject: Subjects }
 }
 
-export const DefaultPage = ({ children, viewPermission }: DefaultPageProps) => {
-  const { authenticatedUser } = useAuthenticatedUser()
-
-  if (viewPermission) {
-    if (can(authenticatedUser, viewPermission.action, viewPermission.subject)) {
-      return <Stack p="40px">{children}</Stack>
-    }
-    return null
-  }
-  return <Stack p="40px">{children}</Stack>
+export const DefaultPage = ({
+  children,
+  action,
+  subject,
+}: DefaultPageProps) => {
+  return (
+    <Stack p="40px">
+      <Can
+        action={action}
+        subject={subject}
+        fallback={<MissingPermissionPage />}
+      >
+        {children}
+      </Can>
+    </Stack>
+  )
 }
 
 type PageHeaderProps = {
