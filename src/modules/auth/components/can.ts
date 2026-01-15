@@ -1,5 +1,9 @@
 import type { User } from '@/modules/user/utils/constants'
-import { defineAbility, type Actions, type Subjects } from '../utils/ability.factory'
+import {
+  defineAbility,
+  type Actions,
+  type Subjects,
+} from '../utils/ability.factory'
 
 export const can = (
   user: User | null,
