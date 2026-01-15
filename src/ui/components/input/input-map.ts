@@ -35,9 +35,9 @@ export type MappedInputProps = {
   [InputTypes.FILE]: FileInputProps
 }
 
-export type DefaultBaseInputProps = {
-  name: Path<FieldValues>
-  control: Control<FieldValues>
+export type DefaultBaseInputProps<TFieldValues extends FieldValues = FieldValues> = {
+  name: Path<TFieldValues>
+  control: Control<TFieldValues>
   rules?: any
   placeholder?: string
 }

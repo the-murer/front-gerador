@@ -6,8 +6,8 @@ export const useUpdateProfilePicture = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, fileId }: { id: string; fileId: string }) =>
-      userApi.updateProfilePicture(id, fileId, { queryClient }),
+    mutationFn: ({ id, fileKey }: { id: string; fileKey: string }) =>
+      userApi.updateProfilePicture(id, fileKey, { queryClient }),
     onSuccess: () => {
       toaster.success({
         title: 'Foto de perfil atualizada com sucesso',

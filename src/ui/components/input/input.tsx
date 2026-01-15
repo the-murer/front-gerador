@@ -1,20 +1,28 @@
 import { Field } from '@chakra-ui/react'
-import { Controller } from 'react-hook-form'
+import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form'
 import { inputMaps, InputTypes, type MappedInputProps } from './input-map'
 
-type DefaultInputProps<T extends InputTypes> = MappedInputProps[T] & {
+type DefaultInputProps<
+  T extends InputTypes,
+  TFieldValues extends FieldValues = FieldValues,
+> = Omit<MappedInputProps[T], 'name' | 'control'> & {
   type: T
   label: string
+  name: Path<TFieldValues>
+  control: Control<TFieldValues>
 }
 
-export const DefaultInput = <T extends InputTypes>({
+export const DefaultInput = <
+  T extends InputTypes,
+  TFieldValues extends FieldValues = FieldValues,
+>({
   name,
   type,
   label,
   control,
   rules,
   ...rest
-}: DefaultInputProps<T>) => {
+}: DefaultInputProps<T, TFieldValues>) => {
   const Component = inputMaps.get(type) as any as React.ComponentType<any>
   return (
     <Field.Root mb={3}>

@@ -39,11 +39,11 @@ class UserEndpoints extends DefaultEndpoint<User> {
 
   async updateProfilePicture(
     id: string,
-    fileId: string,
+    fileKey: string,
     options?: IBaseEndpointOptions,
   ) {
     return this.api
-      .patch<User>(`${this.basePath}/profile-picture`, { id, fileId })
+      .patch<User>(`${this.basePath}/profile-picture`, { id, fileKey })
       .then((r) => {
         this.invalidateGetQueries(id, options?.queryClient)
         this.invalidateFindQueries(options?.queryClient)

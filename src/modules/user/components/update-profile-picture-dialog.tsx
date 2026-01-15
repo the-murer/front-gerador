@@ -12,15 +12,15 @@ import { z } from 'zod'
 
 export const UpdateProfilePictureDialog = NiceModal.create(
   ({ user }: { user: User }) => {
-    const { handleSubmit, control } = useForm({
+    const { handleSubmit, control } = useForm<{ fileKey: string }>({
       resolver: zodResolver(
         z.object({
-          fileId: z.string(),
+          fileKey: z.string(),
         }),
       ),
       mode: 'onBlur',
       defaultValues: {
-        fileId: user.profilePictureId?.toString() || '',
+        fileKey: user.profilePictureUrl || '',
       },
     })
     const { mutateAsync: updateProfilePicture, isPending } =
@@ -31,7 +31,7 @@ export const UpdateProfilePictureDialog = NiceModal.create(
     const handleFormSubmit = handleSubmit(async (data) => {
       console.log('🚀 ~ handleFormSubmit ~ data:', data)
       try {
-        await updateProfilePicture({ id: user._id, fileId: data.fileId })
+        await updateProfilePicture({ id: user._id, fileKey: data.fileKey })
         modal.hide()
       } catch (error) {
         toaster.error({
@@ -49,13 +49,12 @@ export const UpdateProfilePictureDialog = NiceModal.create(
         <DefaultModal.Body>
           <DefaultInput
             type={InputTypes.FILE}
-            name="fileId"
+            name="fileKey"
             label="Foto de perfil"
             control={control}
             accept={FileTypes.IMAGE}
           />
         </DefaultModal.Body>
-        <pre>{JSON.stringify(control._formState.errors, null, 2)}</pre>
         <DefaultModal.Confirm
           submit={handleFormSubmit}
           isLoading={isPending}
