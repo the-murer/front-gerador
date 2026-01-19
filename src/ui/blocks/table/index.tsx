@@ -19,6 +19,7 @@ type DefaultTableProps = {
     sortedBy?: string
     sortOrder?: 'asc' | 'desc'
   }
+  onRowClick?: (row: any) => void
 }
 
 export const DefaultTable = ({
@@ -27,6 +28,7 @@ export const DefaultTable = ({
   loading,
   error,
   sorting,
+  onRowClick,
 }: DefaultTableProps) => {
   const table = useReactTable({
     data: items || [],
@@ -83,7 +85,11 @@ export const DefaultTable = ({
 
       <Table.Body>
         {table.getRowModel().rows.map((row) => (
-          <Table.Row key={row.original._id}>
+          <Table.Row
+            key={row.original._id}
+            onClick={() => onRowClick?.(row.original)}
+            cursor={onRowClick ? 'pointer' : 'default'}
+          >
             {row.getVisibleCells().map((cell) => (
               <Table.Cell key={cell.id} textAlign="start">
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
