@@ -5,10 +5,11 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { MessageRole } from '../utils/constants'
 import { useSendMessage } from '../hooks/use-send-message'
 import { toaster } from '@/ui/storybook/toaster'
-import { useChat, useMessages } from '../hooks/use-ai.store'
+import { useChat, useMessages } from '../stores/use-ai.store'
 import { ChatHistory } from './chat-history'
 import { useFindChatById } from '../hooks/use-find-chat-by-id'
 import { Button } from '@/ui/components/button/button'
+import { AudioRecorderButton } from './audio-capture/audio-recorder-button'
 
 // TODO: IMPROVE THIS BY FAR
 
@@ -162,6 +163,7 @@ export const AiModalChat = NiceModal.create(() => {
                   aria-label="Enviar mensagem"
                   colorPalette="blue"
                   disabled={isPending}
+                  borderRadius="lg"
                 >
                   {isPending ? (
                     <Loader2Icon className="animate-spin" />
@@ -169,6 +171,7 @@ export const AiModalChat = NiceModal.create(() => {
                     <SendIcon />
                   )}
                 </IconButton>
+                <AudioRecorderButton onRecordingComplete={setMessage} />
               </Box>
             </Dialog.Footer>
           </Dialog.Content>

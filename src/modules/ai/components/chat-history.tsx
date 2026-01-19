@@ -2,7 +2,7 @@ import { Portal, Menu, Button } from '@chakra-ui/react'
 import { HistoryIcon } from 'lucide-react'
 import { useFindChats } from '../hooks/use-find-chats'
 import { Typography } from '@/ui/components/typography/typography'
-import { useChat } from '../hooks/use-ai.store'
+import { useChat } from '../stores/use-ai.store'
 
 export const ChatHistory = () => {
   const { data: chats } = useFindChats()
