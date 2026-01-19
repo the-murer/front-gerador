@@ -20,7 +20,7 @@ export function LoginTemplate({ children }: { children: React.ReactNode }) {
 const LeftImage = () => {
   return (
     <VStack h="100%" w="60%" hideBelow="md">
-      <Image src="../../../../../public/login-hero.png" height="100vh" />
+      <Image src="/login-hero.png" height="100vh" />
     </VStack>
   )
 }

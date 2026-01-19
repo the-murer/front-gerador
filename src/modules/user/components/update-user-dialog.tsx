@@ -7,9 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { userUpdateSerializer } from '../utils/schemas'
 import { useUpdateUser } from '../hooks/use-update-user'
 import { toaster } from '@/ui/storybook/toaster'
+import { useEffect } from 'react'
 
 export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(userUpdateSerializer),
     mode: 'onBlur',
     defaultValues: user,
@@ -28,6 +29,10 @@ export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
       })
     }
   })
+
+  useEffect(() => {
+    reset(user)
+  }, [user._id])
 
   return (
     <DefaultModal open={modal.visible} onOpenChange={modal.hide}>

@@ -1,3 +1,4 @@
+import { AIButton } from '@/modules/ai/components/ai-button'
 import { useAuthenticatedUser } from '@/modules/auth/stores/auth-user-store'
 import { AdminHeader } from '@/ui/blocks/header/admin-header'
 import { NotFoundPage } from '@/ui/templates/not-found-page'
@@ -23,6 +24,7 @@ function RouteComponent() {
       <Box flex="1" minW={0} overflowY="scroll">
         <Outlet />
       </Box>
+      <AIButton />
     </Flex>
   )
 }
