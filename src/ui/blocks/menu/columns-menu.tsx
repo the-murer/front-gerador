@@ -15,7 +15,13 @@ export const ColumnsMenu = ({ children }: { children: React.ReactNode }) => {
           justifyContent="center"
           cursor="pointer"
           bg="gray.900"
+          color="white"
           _hover={{ bg: 'gray.700' }}
+          _dark={{
+            bg: 'gray.100',
+            color: 'gray.900',
+            _hover: { bg: 'gray.200' },
+          }}
         >
           <EllipsisVertical size={24} />
         </Box>

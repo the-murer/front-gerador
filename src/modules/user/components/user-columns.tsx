@@ -47,6 +47,8 @@ export const useUserColumns = () => {
               justify="center"
               flexShrink={0}
               overflow="hidden"
+              border="1px solid"
+              borderColor="gray.200"
             >
               <img src={row.original.profilePictureUrl} alt="Foto de perfil" />
             </Flex>

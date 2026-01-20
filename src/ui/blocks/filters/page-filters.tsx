@@ -59,7 +59,13 @@ export const PageFilters = ({
 
   return (
     <PageFiltersContext.Provider value={{ values, setValue, submit, clear }}>
-      <Stack p="4" w="full" bg="gray.900" borderRadius="md">
+      <Stack
+        p="4"
+        w="full"
+        bg="gray.100"
+        _dark={{ bg: 'gray.900' }}
+        borderRadius="md"
+      >
         {children}
       </Stack>
     </PageFiltersContext.Provider>

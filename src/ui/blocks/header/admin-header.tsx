@@ -8,6 +8,7 @@ import { useColorModeValue } from '@/ui/utils/color-mode'
 import { SidebarItem } from '@/ui/blocks/sidebar/sidebar-item'
 import { SidebarHeader } from '@/ui/blocks/sidebar/sidebar-header'
 import { SidebarFooter } from '@/ui/blocks/sidebar/sidebar-footer'
+import React from 'react'
 
 type NavItem = {
   title: string
@@ -69,22 +70,31 @@ export function AdminHeader() {
           subtleText={subtleText}
         />
 
-        <Divider />
+        <Divider borderTopColor={borderColor} />
 
-        <VStack align="stretch" gap={1} px={2} py={3} flex="1" overflowY="scroll">
+        <VStack
+          align="stretch"
+          gap={1}
+          px={2}
+          py={3}
+          flex="1"
+          overflowY="scroll"
+        >
           {NAV_ITEMS.map((item) => {
             return (
-              <SidebarItem
-                to={item.to}
-                title={item.title}
-                collapsed={collapsed}
-                icon={item.icon}
-              />
+              <React.Fragment key={item.to}>
+                <SidebarItem
+                  to={item.to}
+                  title={item.title}
+                  collapsed={collapsed}
+                  icon={item.icon}
+                />
+              </React.Fragment>
             )
           })}
         </VStack>
 
-        <Divider />
+        <Divider borderTopColor={borderColor} />
 
         <SidebarFooter collapsed={collapsed} />
       </Flex>
@@ -92,6 +102,6 @@ export function AdminHeader() {
   )
 }
 
-const Divider = () => {
-  return <Box borderTopWidth="1px" borderTopColor="gray.800" />
+const Divider = ({ borderTopColor }: { borderTopColor: string }) => {
+  return <Box borderTopWidth="1px" borderTopColor={borderTopColor} />
 }

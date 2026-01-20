@@ -9,12 +9,11 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { LogOut } from 'lucide-react'
-
 import {
   useAuthenticatedUser,
   useSetAuthenticatedUser,
 } from '@/modules/auth/stores/auth-user-store'
-import { useColorModeValue } from '@/ui/utils/color-mode'
+import { ColorModeButton, useColorModeValue } from '@/ui/utils/color-mode'
 import { Tooltip } from '@/ui/storybook/tooltip'
 import {
   getUserBackgroundColor,
@@ -53,7 +52,11 @@ export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
         <Flex
           boxSize="10"
           borderRadius="full"
-          bg={authenticatedUser?.profilePictureUrl ? 'transparent' : userBackgroundColor}
+          bg={
+            authenticatedUser?.profilePictureUrl
+              ? 'transparent'
+              : userBackgroundColor
+          }
           align="center"
           justify="center"
           flexShrink={0}
@@ -75,10 +78,13 @@ export const SidebarFooter = ({ collapsed }: { collapsed: boolean }) => {
         </Flex>
 
         {!collapsed && (
-          <Box minW={0}>
-            <Text fontWeight="semibold" lineClamp={1}>
-              {authenticatedUser?.name ?? 'Usuário'}
-            </Text>
+          <Box minW={0} w="full">
+            <HStack justify="space-between">
+              <Text fontWeight="semibold" lineClamp={1}>
+                {authenticatedUser?.name ?? 'Usuário'}
+              </Text>
+              <ColorModeButton />
+            </HStack>
             <Text fontSize="sm" color={subtleText} lineClamp={1}>
               {authenticatedUser?.email ?? '—'}
             </Text>

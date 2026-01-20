@@ -18,7 +18,19 @@ export const ChatHistory = () => {
         </Menu.Trigger>
         <Portal>
           <Menu.Positioner maxH="300px" overflowY="scroll" zIndex={9000}>
-            <Menu.Content maxW="300px" zIndex={9000}>
+            <Menu.Content
+              maxW="300px"
+              zIndex={9000}
+              bg="gray.200"
+              color="gray.900"
+              _hover={{
+                bg: 'gray.300',
+              }}
+              _dark={{
+                bg: 'gray.900',
+                color: 'gray.200',
+              }}
+            >
               {chats?.items.map((chat) => (
                 <Menu.Item
                   onClick={() => setCurrentChat(chat)}
