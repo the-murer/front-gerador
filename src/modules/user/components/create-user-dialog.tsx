@@ -23,7 +23,7 @@ export const CreateUserDialog = NiceModal.create(() => {
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
       await createUser(data)
-      modal.hide()
+      modal.remove()
     } catch (error) {
       toaster.error({
         title: 'Erro ao criar usuário',
@@ -32,7 +32,7 @@ export const CreateUserDialog = NiceModal.create(() => {
   })
 
   return (
-    <DefaultModal open={modal.visible} onOpenChange={modal.hide}>
+    <DefaultModal open={modal.visible} onOpenChange={modal.remove}>
       <DefaultModal.Header title="Criar Usuário" showCloseButton={true} />
       <DefaultModal.Body>
         <UserForm control={control} />
@@ -40,7 +40,7 @@ export const CreateUserDialog = NiceModal.create(() => {
       <DefaultModal.Confirm
         submit={handleFormSubmit}
         isLoading={isPending}
-        onCancel={modal.hide}
+        onCancel={modal.remove}
       />
     </DefaultModal>
   )

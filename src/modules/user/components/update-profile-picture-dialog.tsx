@@ -29,10 +29,9 @@ export const UpdateProfilePictureDialog = NiceModal.create(
     const modal = useModal()
 
     const handleFormSubmit = handleSubmit(async (data) => {
-      console.log('🚀 ~ handleFormSubmit ~ data:', data)
       try {
         await updateProfilePicture({ id: user._id, fileKey: data.fileKey })
-        modal.hide()
+        modal.remove()
       } catch (error) {
         toaster.error({
           title: 'Erro ao atualizar usuário',
@@ -41,7 +40,7 @@ export const UpdateProfilePictureDialog = NiceModal.create(
     })
 
     return (
-      <DefaultModal open={modal.visible} onOpenChange={modal.hide}>
+      <DefaultModal open={modal.visible} onOpenChange={modal.remove}>
         <DefaultModal.Header
           title={`Editar Usuário ${user.name}`}
           showCloseButton={true}
@@ -58,7 +57,7 @@ export const UpdateProfilePictureDialog = NiceModal.create(
         <DefaultModal.Confirm
           submit={handleFormSubmit}
           isLoading={isPending}
-          onCancel={modal.hide}
+          onCancel={modal.remove}
         />
       </DefaultModal>
     )

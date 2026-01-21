@@ -7,10 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { userUpdateSerializer } from '../utils/schemas'
 import { useUpdateUser } from '../hooks/use-update-user'
 import { toaster } from '@/ui/storybook/toaster'
-import { useEffect } from 'react'
 
 export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control } = useForm({
     resolver: zodResolver(userUpdateSerializer),
     mode: 'onBlur',
     defaultValues: user,
@@ -22,7 +21,7 @@ export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
       await updateUser({ id: user._id, data })
-      modal.hide()
+      modal.remove()
     } catch (error) {
       toaster.error({
         title: 'Erro ao atualizar usuário',
@@ -30,12 +29,8 @@ export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
     }
   })
 
-  useEffect(() => {
-    reset(user)
-  }, [user._id])
-
   return (
-    <DefaultModal open={modal.visible} onOpenChange={modal.hide}>
+    <DefaultModal open={modal.visible} onOpenChange={modal.remove}>
       <DefaultModal.Header
         title={`Editar Usuário ${user.name}`}
         showCloseButton={true}
@@ -46,7 +41,7 @@ export const UpdateUserDialog = NiceModal.create(({ user }: { user: User }) => {
       <DefaultModal.Confirm
         submit={handleFormSubmit}
         isLoading={isPending}
-        onCancel={modal.hide}
+        onCancel={modal.remove}
       />
     </DefaultModal>
   )
