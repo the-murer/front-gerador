@@ -9,6 +9,7 @@ import { useRecoverPassword } from '../hooks/use-recover-password'
 
 type RecoverPasswordPayload = {
   password: string
+  confirmPassword: string
 }
 
 export default function RecoverPasswordForm({ hash }: { hash: string }) {
@@ -61,29 +62,31 @@ export default function RecoverPasswordForm({ hash }: { hash: string }) {
   }
 
   return (
-    <VStack w="lg">
+    <VStack w="full" gap={4}>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <DefaultInput
-          type={InputTypes.PASSWORD}
-          control={control}
-          name="password"
-          label="Senha"
-          placeholder="Digite sua senha"
-          rules={{ required: 'Campo obrigatório' }}
-        />
+        <VStack w="full" gap={4}>
+          <DefaultInput
+            type={InputTypes.PASSWORD}
+            control={control}
+            name="password"
+            label="Senha"
+            placeholder="Digite sua senha"
+            rules={{ required: 'Campo obrigatório' }}
+          />
 
-        <DefaultInput
-          type={InputTypes.PASSWORD}
-          control={control}
-          name="confirmPassword"
-          label="Confirmar senha"
-          placeholder="Digite sua senha novamente"
-          rules={{ required: 'Campo obrigatório' }}
-        />
+          <DefaultInput
+            type={InputTypes.PASSWORD}
+            control={control}
+            name="confirmPassword"
+            label="Confirmar senha"
+            placeholder="Digite sua senha novamente"
+            rules={{ required: 'Campo obrigatório' }}
+          />
 
-        <Button type="submit" width="100%" mt={4}>
-          Recuperar senha
-        </Button>
+          <Button type="submit" width="100%" mt={4}>
+            Recuperar senha
+          </Button>
+        </VStack>
       </form>
       <Button
         variant="subtle"

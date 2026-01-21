@@ -25,36 +25,46 @@ export default function LoginForm() {
   }
 
   return (
-    <VStack w="lg">
+    <VStack w="full" gap={4}>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <DefaultInput
-          type={InputTypes.TEXT}
-          control={control}
-          name="email"
-          label="Email"
-          placeholder="Digite seu email"
-          rules={{ required: 'Campo obrigatório' }}
-        />
+        <VStack gap={4} w="full">
+          <DefaultInput
+            type={InputTypes.TEXT}
+            control={control}
+            name="email"
+            label="Email"
+            placeholder="Digite seu email"
+            rules={{ required: 'Campo obrigatório' }}
+          />
 
-        <DefaultInput
-          type={InputTypes.PASSWORD}
-          control={control}
-          name="password"
-          label="Senha"
-          placeholder="Digite sua senha"
-          rules={{ required: 'Campo obrigatório' }}
-        />
+          <DefaultInput
+            type={InputTypes.PASSWORD}
+            control={control}
+            name="password"
+            label="Senha"
+            placeholder="Digite sua senha"
+            rules={{ required: 'Campo obrigatório' }}
+          />
 
-        <Button type="submit" width="100%" mt={4}>
-          Entrar
-        </Button>
+          <Button
+            type="submit"
+            width="100%"
+            mt={2}
+            size={{ base: 'md', sm: 'lg' }}
+          >
+            Entrar
+          </Button>
+        </VStack>
       </form>
       <Button
-        variant="subtle"
+        variant="ghost"
         w="full"
+        size={{ base: 'sm', sm: 'md' }}
+        color="gray.600"
+        _hover={{ color: 'gray.800', bg: 'gray.100' }}
         onClick={() => navigate({ to: '/auth/forgot-password' })}
       >
-        Esqueceu sua senha
+        Esqueceu sua senha?
       </Button>
     </VStack>
   )

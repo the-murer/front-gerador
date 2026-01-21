@@ -3,11 +3,8 @@ import { LoginTemplate } from '@/ui/templates/auth/login-template'
 
 export function LoginPage() {
   return (
-    <LoginTemplate>
-      <LoginTemplate.LeftImage />
-      <LoginTemplate.Form title="Login" description="Faça login para continuar">
-        <LoginForm />
-      </LoginTemplate.Form>
-    </LoginTemplate>
+    <LoginTemplate.Complete title="Login" description="Faça login para continuar">
+      <LoginForm />
+    </LoginTemplate.Complete>
   )
 }

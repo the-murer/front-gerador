@@ -3,11 +3,8 @@ import ForgotPasswordForm from '../components/forgot-password-form'
 
 export function ForgotPasswordPage() {
   return (
-    <LoginTemplate>
-      <LoginTemplate.LeftImage />
-      <LoginTemplate.Form title="Recupere sua conta">
-        <ForgotPasswordForm />
-      </LoginTemplate.Form>
-    </LoginTemplate>
+    <LoginTemplate.Complete title="Recupere sua conta" description="">
+      <ForgotPasswordForm />
+    </LoginTemplate.Complete>
   )
 }

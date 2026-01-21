@@ -50,20 +50,22 @@ export default function ForgotPasswordForm() {
   }
 
   return (
-    <VStack w="lg">
+    <VStack w="full" gap={4}>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <DefaultInput
-          type={InputTypes.TEXT}
-          control={control}
-          name="email"
-          label="Email"
-          placeholder="Digite seu email"
-          rules={{ required: 'Campo obrigatório' }}
-        />
+        <VStack w="full" gap={4}>
+          <DefaultInput
+            type={InputTypes.TEXT}
+            control={control}
+            name="email"
+            label="Email"
+            placeholder="Digite seu email"
+            rules={{ required: 'Campo obrigatório' }}
+          />
 
-        <Button type="submit" width="100%" mt={4}>
-          Enviar link de recuperação
-        </Button>
+          <Button type="submit" width="100%" mt={4}>
+            Enviar link de recuperação
+          </Button>
+        </VStack>
       </form>
       <Button
         variant="subtle"
