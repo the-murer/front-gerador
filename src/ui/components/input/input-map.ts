@@ -13,6 +13,7 @@ import { FileInput, type FileInputProps } from './variants/file-input'
 
 export enum InputTypes {
   TEXT = 'text',
+  STRING = 'text',
   PASSWORD = 'password',
   NUMBER = 'number',
   MULTI_SELECT = 'multi-select',

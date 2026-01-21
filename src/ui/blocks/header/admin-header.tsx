@@ -19,6 +19,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { title: 'Dashboard', to: '/admin/dashboard', icon: LayoutDashboard },
   { title: 'Usuários', to: '/admin/users', icon: Users },
+  /* NAV_ITEMS_INJECTOR */
 ]
 
 export function AdminHeader() {
