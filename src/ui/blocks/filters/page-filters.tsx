@@ -74,7 +74,7 @@ export const PageFilters = ({
 
 PageFilters.Content = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap="6">
+    <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap="6">
       {children}
     </Grid>
   )
@@ -99,12 +99,23 @@ PageFilters.Actions = () => {
   const { submit, clear } = usePageFilters()
 
   return (
-    <Stack w="full" justifyContent="end" gap="2" mt="3" flexDirection="row">
-      <Button onClick={() => clear()} variant="subtle" size="sm">
+    <Stack
+      w="full"
+      justifyContent="end"
+      gap="2"
+      mt="3"
+      flexDirection={{ base: 'column', md: 'row' }}
+    >
+      <Button
+        onClick={() => clear()}
+        variant="subtle"
+        size="sm"
+        w={{ base: 'full', md: 'auto' }}
+      >
         <LuX />
         Limpar filtros
       </Button>
-      <Button size="sm" onClick={submit}>
+      <Button size="sm" onClick={submit} w={{ base: 'full', md: 'auto' }}>
         <LuCheck />
         Aplicar filtros
       </Button>

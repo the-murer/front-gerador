@@ -22,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   /* NAV_ITEMS_INJECTOR */
 ]
 
-export function AdminHeader() {
+export function AdminNavigation() {
   const collapsed = useAdminUiStore((s) => s.isSidebarCollapsed)
   const toggleCollapsed = useAdminUiStore((s) => s.toggleSidebarCollapsed)
   const setSidebarCollapsed = useAdminUiStore((s) => s.setSidebarCollapsed)
@@ -49,7 +49,9 @@ export function AdminHeader() {
   }
 
   return (
+    <>
     <Box
+      hideBelow="sm"
       as="aside"
       w={sidebarWidth}
       transition="width 180ms ease"
@@ -100,6 +102,7 @@ export function AdminHeader() {
         <SidebarFooter collapsed={collapsed} />
       </Flex>
     </Box>
+    </>
   )
 }
 

@@ -23,7 +23,7 @@ export const DefaultPage = ({
   subject,
 }: DefaultPageProps) => {
   return (
-    <Stack p="40px">
+    <Stack p={{ lg: '40px', md: '20px', base: '15px' }}>
       <Can
         action={action}
         subject={subject}
@@ -54,8 +54,13 @@ const PageHeader = ({
 
   return (
     <VStack>
-      <HStack w="full" justify="space-between">
-        <Stack>
+      <Stack
+        display="flex"
+        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
+        w="full"
+        justify="space-between"
+      >
+        <Stack display="flex">
           <Heading spaceX="2" size="4xl">
             {title}
           </Heading>
@@ -74,8 +79,8 @@ const PageHeader = ({
             <ActionComponent onClick={onActionClick} />
           ) : null}
         </HStack>
-      </HStack>
-      <Collapsible.Root w="full" p="4" open={showFilters}>
+      </Stack>
+      <Collapsible.Root w="full" p="0" open={showFilters}>
         <Collapsible.Content w="full">{children}</Collapsible.Content>
       </Collapsible.Root>
     </VStack>
@@ -88,7 +93,7 @@ const PageFilters = ({
   setShowFilters: Dispatch<SetStateAction<boolean>>
 }) => {
   return (
-    <Button onClick={() => setShowFilters((prev) => !prev)}>
+    <Button size="lg" onClick={() => setShowFilters((prev) => !prev)}>
       <FilterIcon />
       Filtrar
     </Button>
@@ -97,7 +102,7 @@ const PageFilters = ({
 
 const ActionComponent = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Button onClick={onClick} variant="solid" colorPalette="blue">
+    <Button size="lg" onClick={onClick} variant="solid" colorPalette="blue">
       <PlusIcon />
       Adicionar
     </Button>
