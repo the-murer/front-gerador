@@ -1,5 +1,9 @@
-import { Text, type TextProps } from '@chakra-ui/react'
+import { Text as ChakraText, type TextProps } from '@chakra-ui/react'
 
 export const Typography = ({ children, ...props }: TextProps) => {
-  return <Text {...props}>{children}</Text>
+  return <ChakraText {...props}>{children}</ChakraText>
+}
+
+export const Text = (props: TextProps) => {
+  return <ChakraText {...props} />
 }

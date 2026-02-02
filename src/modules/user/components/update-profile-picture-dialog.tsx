@@ -1,7 +1,7 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 import { DefaultModal } from '@/ui/blocks/modal/default-modal'
 import { useForm } from 'react-hook-form'
-import type { User } from '../utils/constants'
+import type { User } from '../utils/user-constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toaster } from '@/ui/storybook/toaster'
 import { DefaultInput } from '@/ui/components/input/input'

@@ -17,6 +17,8 @@ export const UsersPage = () => {
     page,
     sort: sort.sortedBy,
     sortOrder: sort.sortOrder,
+    name: search.name,
+    email: search.email,
   })
 
   const columns = useUserColumns()

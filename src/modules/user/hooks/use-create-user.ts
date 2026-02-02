@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { userApi } from '../utils/constants'
+import { userApi } from '../utils/user-constants'
 import { toaster } from '@/ui/storybook/toaster'
-import type { UserBodySerializerType } from '../utils/schemas'
+import type { UserBodySerializerType } from '../utils/user-schemas'
 
 export const useCreateUser = () => {
   const queryClient = useQueryClient()

@@ -1,4 +1,4 @@
-import type { User } from '@/modules/user/utils/constants'
+import type { User } from '@/modules/user/utils/user-constants'
 import {
   defineAbility,
   type Actions,

@@ -1,6 +1,12 @@
 import { Field } from '@chakra-ui/react'
-import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form'
+import {
+  Controller,
+  type Control,
+  type FieldValues,
+  type Path,
+} from 'react-hook-form'
 import { inputMaps, InputTypes, type MappedInputProps } from './input-map'
+import { Typography } from '../typography/typography'
 
 type DefaultInputProps<
   T extends InputTypes,
@@ -26,7 +32,9 @@ export const DefaultInput = <
   const Component = inputMaps.get(type) as any as React.ComponentType<any>
   return (
     <Field.Root mb={3}>
-      <Field.Label>{label}</Field.Label>
+      <Field.Label htmlFor={name} fontWeight="bold" mb={1} id={name}>
+        {label}
+      </Field.Label>
       <Controller
         name={name}
         control={control}
@@ -41,7 +49,7 @@ export const DefaultInput = <
               field={field}
             />
             {fieldState.error && (
-              <Field.ErrorText>{fieldState.error.message}</Field.ErrorText>
+              <Typography color="red">{fieldState.error.message}</Typography>
             )}
           </>
         )}

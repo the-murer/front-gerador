@@ -1,8 +1,8 @@
 import { Ability, AbilityBuilder, PureAbility } from '@casl/ability'
-import type { User } from '@/modules/user/utils/constants'
+import type { User } from '@/modules/user/utils/user-constants'
 
 export type Actions = 'manage' | 'create' | 'read' | 'update' | 'delete'
-export type Subjects = 'User' | /* SUBJECT_INJECTOR */ 'all'
+export type Subjects = 'User' | 'Type' | /* SUBJECT_INJECTOR */ 'all'
 
 export type AppAbility = PureAbility<[Actions, Subjects]>
 

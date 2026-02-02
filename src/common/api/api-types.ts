@@ -3,6 +3,7 @@ export type PaginatedParams = {
   limit?: number
   sort?: string
   sortOrder?: 'asc' | 'desc'
+  [key: string]: string | number | boolean | undefined
 }
 
 export type PaginatedResponse<T> = {

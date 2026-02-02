@@ -1,13 +1,16 @@
+import {
+  defaultEmailValidation,
+  defaultStringValidation,
+} from '@/common/utils/validation-utils'
 import { z } from 'zod'
 
 const userSchema = z.object({
   _id: z.string().optional(),
   active: z.boolean(),
-  name: z.string().min(3),
-  email: z.string().email(),
+  name: defaultStringValidation,
+  email: defaultEmailValidation,
   roles: z.array(z.string()),
 })
-
 
 export const userBodySerializer = userSchema.omit({
   _id: true,

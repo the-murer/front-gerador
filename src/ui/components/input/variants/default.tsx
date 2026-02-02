@@ -10,7 +10,7 @@ export function TextInput({
   name,
   control,
   rules,
-  placeholder,
+  placeholder = "Digite aqui",
 }: TextInputProps) {
   return (
     <Controller

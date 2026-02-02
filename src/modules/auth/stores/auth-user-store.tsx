@@ -1,4 +1,4 @@
-import type { User } from '@/modules/user/utils/constants'
+import type { User } from '@/modules/user/utils/user-constants'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { defineAbility, type AppAbility } from '../utils/ability.factory'

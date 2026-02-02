@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { userApi } from '../utils/constants'
+import { userApi } from '../utils/user-constants'
 import { toaster } from '@/ui/storybook/toaster'
 
 export const useChangeUserActive = () => {

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { userApi } from '../utils/constants'
+import { userApi } from '../utils/user-constants'
 import { toaster } from '@/ui/storybook/toaster'
-import type { UserUpdateSerializerType } from '../utils/schemas'
+import type { UserUpdateSerializerType } from '../utils/user-schemas'
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient()

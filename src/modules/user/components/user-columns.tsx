@@ -1,6 +1,6 @@
 import { Switch } from '@/ui/components/switch/switch'
 import type { ColumnDef } from '@tanstack/react-table'
-import type { User } from '../utils/constants'
+import type { User } from '../utils/user-constants'
 import { useChangeUserActive } from '../hooks/use-change-user-active'
 import { useModal } from '@ebay/nice-modal-react'
 import { UpdateUserDialog } from './update-user-dialog'
