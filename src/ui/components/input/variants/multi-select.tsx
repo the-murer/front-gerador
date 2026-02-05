@@ -1,12 +1,17 @@
 import { Portal, Select, createListCollection } from '@chakra-ui/react'
-import type { DefaultBaseInputProps } from '../input-map'
 
-export interface MultiSelectInputProps extends DefaultBaseInputProps {
+export interface MultiSelectInputProps {
+  value?: string[]
+  onChange?: (value: string[]) => void
+  onBlur?: () => void
   options: { label: string; value: string }[]
+  placeholder?: string
 }
 
 export const MultiSelectInput = ({
-  field,
+  value = [],
+  onChange,
+  onBlur,
   options,
   placeholder = 'Select items',
 }: MultiSelectInputProps) => {
@@ -14,10 +19,10 @@ export const MultiSelectInput = ({
     items: options,
   })
 
-  const selectedValues = Array.isArray(field.value) ? field.value : []
+  const selectedValues = Array.isArray(value) ? value : []
 
   const handleValueChange = (details: { value: string[] }) => {
-    field.onChange(details.value)
+    onChange?.(details.value)
   }
 
   return (
@@ -28,7 +33,7 @@ export const MultiSelectInput = ({
       width="full"
       value={selectedValues}
       onValueChange={handleValueChange}
-      onBlur={field.onBlur}
+      onBlur={onBlur}
     >
       <Select.HiddenSelect />
       <Select.Control>

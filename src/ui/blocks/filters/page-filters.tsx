@@ -1,4 +1,5 @@
 import { Button } from '@/ui/components/button/button'
+import { inputMaps, InputTypes } from '@/ui/components/input/input-map'
 import { Field, Grid, Input, Stack } from '@chakra-ui/react'
 import React, { createContext, useContext, useState } from 'react'
 import { LuCheck, LuX } from 'react-icons/lu'
@@ -81,15 +82,26 @@ PageFilters.Content = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-PageFilters.Input = ({ label, name }: { label: string; name: string }) => {
+PageFilters.Input = ({
+  label,
+  name,
+  type,
+}: {
+  label: string
+  name: string
+  type: InputTypes
+}) => {
   const { value, setValue } = usePageFilters(name)
+
+  const Component = inputMaps.get(type) as React.ComponentType<any>
 
   return (
     <Field.Root>
       <Field.Label>{label}</Field.Label>
-      <Input
+      <Component
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(value: string) => setValue(value)}
+        onBlur={() => setValue(value)}
         placeholder={label}
       />
     </Field.Root>

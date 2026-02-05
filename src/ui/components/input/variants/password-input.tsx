@@ -1,25 +1,25 @@
 import { Input } from '@chakra-ui/react'
-import type { DefaultBaseInputProps } from '../input-map'
-import { Controller } from 'react-hook-form'
 
-export interface PasswordInputProps extends DefaultBaseInputProps {
+export interface PasswordInputProps {
+  value?: string
+  onChange?: (value: string) => void
+  onBlur?: () => void
   placeholder?: string
 }
 
 export function PasswordInput({
-  name,
-  control,
-  rules,
+  value = '',
+  onChange,
+  onBlur,
   placeholder,
 }: PasswordInputProps) {
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field }) => (
-        <Input {...field} placeholder={placeholder} type="password" />
-      )}
+    <Input
+      value={value}
+      onChange={(e) => onChange?.(e.target.value)}
+      onBlur={onBlur}
+      placeholder={placeholder}
+      type="password"
     />
   )
 }

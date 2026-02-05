@@ -1,12 +1,17 @@
 import { Portal, Select, createListCollection } from '@chakra-ui/react'
-import type { DefaultBaseInputProps } from '../input-map'
 
-export interface SelectInputProps extends DefaultBaseInputProps {
+export interface SelectInputProps {
+  value?: string
+  onChange?: (value: string) => void
+  onBlur?: () => void
   options: { label: string; value: string }[]
+  placeholder?: string
 }
 
 export const SelectInput = ({
-  field,
+  value = '',
+  onChange,
+  onBlur,
   options,
   placeholder = 'Selecione uma opção',
 }: SelectInputProps) => {
@@ -15,7 +20,7 @@ export const SelectInput = ({
   })
 
   const handleValueChange = (details: { value: string[] }) => {
-    field.onChange(details.value[0] || '')
+    onChange?.(details.value[0] || '')
   }
 
   return (
@@ -23,9 +28,9 @@ export const SelectInput = ({
       collection={valuesCollection}
       size="sm"
       width="full"
-      value={field.value ? [field.value] : []}
+      value={value ? [value] : []}
       onValueChange={handleValueChange}
-      onBlur={field.onBlur}
+      onBlur={onBlur}
     >
       <Select.HiddenSelect />
       <Select.Control>

@@ -9,9 +9,19 @@ export const useFindUsers = ({
   sortOrder,
   name,
   email,
+  active,
 }: PaginatedParams) => {
   return useQuery({
-    queryFn: () => userApi.find({ page, limit, sort, sortOrder, name, email }),
-    queryKey: userApi.keys.find({ page, limit, sort, sortOrder, name, email }),
+    queryFn: () =>
+      userApi.find({ page, limit, sort, sortOrder, name, email, active }),
+    queryKey: userApi.keys.find({
+      page,
+      limit,
+      sort,
+      sortOrder,
+      name,
+      email,
+      active,
+    }),
   })
 }

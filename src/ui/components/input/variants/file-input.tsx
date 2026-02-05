@@ -1,14 +1,12 @@
 import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react'
-import type { FieldValues } from 'react-hook-form'
-import type { DefaultBaseInputProps } from '../input-map'
 import { useRef, useState, useCallback } from 'react'
 import {
   FileIcon,
   FileTextIcon,
   ImageIcon,
   VideoIcon,
-  XIcon,
   UploadIcon,
+  XIcon,
   EyeIcon,
 } from 'lucide-react'
 import { useUploadFile } from '@/modules/files/hooks/use-upload-file'
@@ -20,20 +18,18 @@ export enum FileTypes {
   ANY = '*/*',
 }
 
-export interface FileInputProps<TFieldValues extends FieldValues = FieldValues>
-  extends DefaultBaseInputProps<TFieldValues> {
+export interface FileInputProps {
+  value?: string | string[] | null
+  onChange?: (value: string | string[] | null) => void
+  onBlur?: () => void
   accept?: FileTypes
   multiple?: boolean
-  field?: {
-    value: string | string[] | null
-    onChange: (value: string | string[] | null) => void
-    onBlur?: () => void
-  }
+  placeholder?: string
 }
 
 type FileItem = {
   key: string
-  preview: string // URL ou base64
+  preview: string
   name: string
   isUrl: boolean
 }
@@ -174,10 +170,12 @@ function ImageModal({
 }
 
 export function FileInput({
+  value,
+  onChange,
+  onBlur,
   placeholder = 'Arraste arquivos aqui ou clique para selecionar',
   accept,
   multiple = false,
-  field,
 }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -185,20 +183,17 @@ export function FileInput({
   const [viewingImage, setViewingImage] = useState<string | null>(null)
   const { mutateAsync: uploadFile, isPending: isUploading } = useUploadFile()
 
-  // Converte o value do field em array de FileItems
   const getFileItems = useCallback((): FileItem[] => {
-    if (!field) return []
-    
-    const values = field.value
-      ? Array.isArray(field.value)
-        ? field.value
-        : [field.value]
+    const values = value
+      ? Array.isArray(value)
+        ? value
+        : [value]
       : []
 
     return values.map((key) => {
       const localPreview = localPreviews.get(key)
       const isUrl = key.startsWith('http') || key.startsWith('/')
-      
+
       return {
         key,
         preview: localPreview || key,
@@ -206,18 +201,17 @@ export function FileInput({
         isUrl,
       }
     })
-  }, [field, localPreviews])
+  }, [value, localPreviews])
 
   const handleFileChange = useCallback(
     async (files: FileList | null) => {
-      if (!files || files.length === 0 || !field) return
+      if (!files || files.length === 0) return
 
       const fileArray = Array.from(files)
 
       try {
         const uploadResults = await Promise.all(
           fileArray.map(async (file) => {
-            // Gera preview local para imagens
             const preview = await new Promise<string>((resolve) => {
               if (file.type.startsWith('image/')) {
                 const reader = new FileReader()
@@ -233,50 +227,46 @@ export function FileInput({
           })
         )
 
-        // Salva previews locais
         const newPreviews = new Map(localPreviews)
         uploadResults.forEach(({ key, preview }) => {
           if (preview) newPreviews.set(key, preview)
         })
         setLocalPreviews(newPreviews)
 
-        // Atualiza o valor
         const keys = uploadResults.map((r) => r.key)
         if (multiple) {
-          const currentValues = field.value
-            ? Array.isArray(field.value)
-              ? field.value
-              : [field.value]
+          const currentValues = value
+            ? Array.isArray(value)
+              ? value
+              : [value]
             : []
-          field.onChange([...currentValues, ...keys])
+          onChange?.([...currentValues, ...keys])
         } else {
-          field.onChange(keys[0])
+          onChange?.(keys[0])
         }
       } catch (error) {
         console.error('Erro no upload:', error)
       }
     },
-    [uploadFile, multiple, field, localPreviews]
+    [uploadFile, multiple, value, localPreviews, onChange]
   )
 
   const handleRemove = useCallback(
     (keyToRemove: string) => {
-      if (!field) return
-      
       setLocalPreviews((prev) => {
         const newMap = new Map(prev)
         newMap.delete(keyToRemove)
         return newMap
       })
 
-      if (multiple && Array.isArray(field.value)) {
-        const newValues = field.value.filter((k) => k !== keyToRemove)
-        field.onChange(newValues.length > 0 ? newValues : null)
+      if (multiple && Array.isArray(value)) {
+        const newValues = value.filter((k) => k !== keyToRemove)
+        onChange?.(newValues.length > 0 ? newValues : null)
       } else {
-        field.onChange(null)
+        onChange?.(null)
       }
     },
-    [multiple, field]
+    [multiple, value, onChange]
   )
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -336,7 +326,7 @@ export function FileInput({
             multiple={multiple}
             style={{ display: 'none' }}
             onChange={(e) => handleFileChange(e.target.files)}
-            onBlur={field?.onBlur}
+            onBlur={onBlur}
           />
         </Box>
 

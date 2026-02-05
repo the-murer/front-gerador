@@ -1,27 +1,30 @@
 import { NumberInput as ChakraNumberInput } from '@chakra-ui/react'
-import type { DefaultBaseInputProps } from '../input-map'
-import { Controller } from 'react-hook-form'
 
-export interface NumberInputProps extends DefaultBaseInputProps {
+export interface NumberInputProps {
+  value?: number | string
+  onChange?: (value: string) => void
+  onBlur?: () => void
   placeholder?: string
 }
 
 export function NumberInput({
-  name,
-  control,
-  rules,
+  value = '',
+  onChange,
+  onBlur,
   placeholder,
 }: NumberInputProps) {
+  const stringValue =
+    value !== undefined && value !== null && value !== ''
+      ? String(value)
+      : ''
+
   return (
-    <ChakraNumberInput.Root name={name}>
-      <Controller
-        name={name}
-        control={control}
-        rules={rules}
-        render={({ field }) => (
-          <ChakraNumberInput.Input {...field} placeholder={placeholder} />
-        )}
-      />
+    <ChakraNumberInput.Root
+      value={stringValue}
+      onValueChange={(details) => onChange?.(details.value ?? '')}
+      onBlur={onBlur}
+    >
+      <ChakraNumberInput.Input placeholder={placeholder} />
     </ChakraNumberInput.Root>
   )
 }

@@ -1,25 +1,29 @@
 import { Portal, Select, createListCollection } from '@chakra-ui/react'
-import type { DefaultBaseInputProps } from '../input-map'
 
-export interface QuerySelectableInputProps extends DefaultBaseInputProps {
-  options: { label: string; value: string }[];
-  searchField: string
+export interface QuerySelectableInputProps {
+  value?: string[]
+  onChange?: (value: string[]) => void
+  onBlur?: () => void
+  options: { label: string; value: string }[]
+  searchField?: string
+  placeholder?: string
 }
 
 export const QuerySelectableInput = ({
-  field,
+  value = [],
+  onChange,
+  onBlur,
   options,
   placeholder = 'Selecione uma opção',
-  searchField = 'name',
 }: QuerySelectableInputProps) => {
   const valuesCollection = createListCollection({
     items: options,
   })
 
-  const selectedValues = Array.isArray(field.value) ? field.value : []
+  const selectedValues = Array.isArray(value) ? value : []
 
   const handleValueChange = (details: { value: string[] }) => {
-    field.onChange(details.value)
+    onChange?.(details.value)
   }
 
   return (
@@ -30,7 +34,7 @@ export const QuerySelectableInput = ({
       width="full"
       value={selectedValues}
       onValueChange={handleValueChange}
-      onBlur={field.onBlur}
+      onBlur={onBlur}
     >
       <Select.HiddenSelect />
       <Select.Control>
