@@ -1,4 +1,5 @@
-import { Button, Field, Grid, Input, Stack } from '@chakra-ui/react'
+import { Button } from '@/ui/components/button/button'
+import { Field, Grid, Input, Stack } from '@chakra-ui/react'
 import React, { createContext, useContext, useState } from 'react'
 import { LuCheck, LuX } from 'react-icons/lu'
 

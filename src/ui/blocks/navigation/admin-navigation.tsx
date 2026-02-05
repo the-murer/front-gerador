@@ -50,58 +50,58 @@ export function AdminNavigation() {
 
   return (
     <>
-    <Box
-      hideBelow="sm"
-      as="aside"
-      w={sidebarWidth}
-      transition="width 180ms ease"
-      bg={sidebarBg}
-      borderRightWidth="1px"
-      borderRightColor={borderColor}
-      position="sticky"
-      top="0"
-      h="100vh"
-      overflow="hidden"
-      flexShrink={0}
-      cursor={collapsed ? 'pointer' : 'default'}
-      onClickCapture={handleSidebarClickCapture}
-    >
-      <Flex direction="column" h="full">
-        <SidebarHeader
-          collapsed={collapsed}
-          toggleCollapsed={toggleCollapsed}
-          subtleText={subtleText}
-        />
+      <Box
+        hideBelow="sm"
+        as="aside"
+        w={sidebarWidth}
+        transition="width 180ms ease"
+        bg={sidebarBg}
+        borderRightWidth="1px"
+        borderRightColor={borderColor}
+        position="sticky"
+        top="0"
+        h="100vh"
+        overflow="hidden"
+        flexShrink={0}
+        cursor={collapsed ? 'pointer' : 'default'}
+        onClickCapture={handleSidebarClickCapture}
+      >
+        <Flex direction="column" h="full">
+          <SidebarHeader
+            collapsed={collapsed}
+            toggleCollapsed={toggleCollapsed}
+            subtleText={subtleText}
+          />
 
-        <Divider borderTopColor={borderColor} />
+          <Divider borderTopColor={borderColor} />
 
-        <VStack
-          align="stretch"
-          gap={1}
-          px={2}
-          py={3}
-          flex="1"
-          overflowY="scroll"
-        >
-          {NAV_ITEMS.map((item) => {
-            return (
-              <React.Fragment key={item.to}>
-                <SidebarItem
-                  to={item.to}
-                  title={item.title}
-                  collapsed={collapsed}
-                  icon={item.icon}
-                />
-              </React.Fragment>
-            )
-          })}
-        </VStack>
+          <VStack
+            align="stretch"
+            gap={1}
+            px={2}
+            py={3}
+            flex="1"
+            overflowY="scroll"
+          >
+            {NAV_ITEMS.map((item) => {
+              return (
+                <React.Fragment key={item.to}>
+                  <SidebarItem
+                    to={item.to}
+                    title={item.title}
+                    collapsed={collapsed}
+                    icon={item.icon}
+                  />
+                </React.Fragment>
+              )
+            })}
+          </VStack>
 
-        <Divider borderTopColor={borderColor} />
+          <Divider borderTopColor={borderColor} />
 
-        <SidebarFooter collapsed={collapsed} />
-      </Flex>
-    </Box>
+          <SidebarFooter collapsed={collapsed} />
+        </Flex>
+      </Box>
     </>
   )
 }
