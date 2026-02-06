@@ -7,10 +7,12 @@ import { useSearchParams } from '@/common/hooks/use-list-search-params'
 import { UsersFilters } from '../components/user-filters'
 import { useModal } from '@ebay/nice-modal-react'
 import { CreateUserDialog } from '../components/create-user-dialog'
+import { useNavigate } from '@tanstack/react-router'
 
 export const UsersPage = () => {
   const { search, sort, handlePageChange, setSearchParams } =
     useSearchParams('/admin/users/')
+  const navigate = useNavigate()
   const { page = 1 } = search
 
   const { data, isLoading, error } = useFindUsers({
@@ -42,6 +44,7 @@ export const UsersPage = () => {
         sorting={sort}
         loading={isLoading}
         error={error?.message}
+        onRowClick={(row) => navigate({ to: `/admin/users/${row._id}` })}
       />
 
       <DefaultPagination
