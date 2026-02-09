@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 export type PaginatedParams = {
   page: number
   limit?: number
@@ -12,3 +14,9 @@ export type PaginatedResponse<T> = {
   }
   items: T[]
 }
+
+export const defaultSchema = z.object({
+  _id: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})

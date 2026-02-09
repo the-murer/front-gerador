@@ -1,29 +1,22 @@
 import {
+  customStringValidation,
+  defaultBooleanValidation,
   defaultEmailValidation,
-  defaultStringValidation,
 } from '@/common/utils/validation-utils'
 import { z } from 'zod'
+import { defaultSchema } from '@/common/api/api-types'
 
-const userSchema = z.object({
-  _id: z.string().optional(),
-  active: z.boolean(),
-  name: defaultStringValidation,
+export const userSerializer = z.object({
+  active: defaultBooleanValidation,
+  name: customStringValidation({ max: 50 }),
   email: defaultEmailValidation,
-  roles: z.array(z.string()),
+  roles: z.array(customStringValidation()),
 })
 
-export const userBodySerializer = userSchema.omit({
-  _id: true,
-  active: true,
-})
+export const userUpdateSerializer = userSerializer.partial()
 
-export const userUpdateSerializer = userSchema.pick({
-  name: true,
-  email: true,
-  roles: true,
-})
+export type User = z.infer<typeof userSerializer> &
+  z.infer<typeof defaultSchema>
 
-export type User = z.infer<typeof userSchema>
-
-export type UserBodySerializerType = z.infer<typeof userBodySerializer>
+export type UserBodySerializerType = z.infer<typeof userSerializer>
 export type UserUpdateSerializerType = z.infer<typeof userUpdateSerializer>

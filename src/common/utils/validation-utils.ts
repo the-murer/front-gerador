@@ -1,9 +1,25 @@
 import z from 'zod'
 
-export const defaultStringValidation = z
-  .string({ required_error: 'Este campo é obrigatório' })
-  .min(3, { message: 'Este campo deve ter pelo menos 3 caracteres' })
-  .max(255, { message: 'Este campo deve ter no máximo 255 caracteres' })
+export const defaultBooleanValidation = z.boolean({
+  required_error: 'Este campo é obrigatório',
+})
+
+type StringValidationOptions = {
+  min?: number
+  max?: number
+}
+
+export const customStringValidation = ({
+  min = 3,
+  max = 255,
+}: StringValidationOptions = {}): z.ZodString => {
+  const defaultSchema = z
+    .string({ required_error: 'Este campo é obrigatório' })
+    .min(min, { message: `Este campo deve ter pelo menos ${min} caracteres` })
+    .max(max, { message: `Este campo deve ter no máximo ${max} caracteres` })
+
+  return defaultSchema
+}
 
 export const defaultEmailValidation = z
   .string({ required_error: 'Este campo é obrigatório' })

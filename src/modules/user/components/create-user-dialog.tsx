@@ -3,7 +3,7 @@ import { UserForm } from './user-form'
 import { DefaultModal } from '@/ui/blocks/modal/default-modal'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { userBodySerializer } from '../utils/user-schemas'
+import { userSerializer } from '../utils/user-schemas'
 import { useCreateUser } from '../hooks/use-create-user'
 import { toaster } from '@/ui/storybook/toaster'
 
@@ -11,7 +11,7 @@ export const CreateUserDialog = NiceModal.create(() => {
   const modal = useModal()
   const { mutateAsync: createUser, isPending } = useCreateUser()
   const { handleSubmit, control } = useForm({
-    resolver: zodResolver(userBodySerializer),
+    resolver: zodResolver(userSerializer),
     mode: 'onBlur',
     defaultValues: {
       name: '',
